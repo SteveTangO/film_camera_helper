@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool selected = false;
-  List<FilmCard> filmcardlist = new List(42);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: filmcardlist.length,
+                itemCount: 42,
                 itemBuilder: (BuildContext context, int index) {
                   int filmcardserial = index + 1;
                   return Container(
@@ -99,4 +98,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
