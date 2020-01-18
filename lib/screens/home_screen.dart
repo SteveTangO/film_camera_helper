@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart'; //location service package
 //authorisation functions in both systems are implemented
 import 'package:film_camera_campanion/utilities/filmstock.dart';
 import 'package:film_camera_campanion/screens/new_film_screen.dart';
+import 'package:film_camera_campanion/utilities/constants.dart';
+import 'package:film_camera_campanion/widgets/information_board.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,53 +14,70 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool selected = false;
+  List<FilmCard> filmcardlist = new List(42);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Film Camera Campanion'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                selected = !selected;
-              });
-            },
-            child: AnimatedContainer(
-              padding: EdgeInsets.all(30),
-              duration: Duration(seconds: 1),
-              child: Text('current  information'),
-              margin: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: selected ? Colors.teal : Colors.blue,
-                borderRadius: BorderRadius.circular(selected ? 10 : 40),
-              ),
+      body: Container(
+        decoration: BoxDecoration(
+          image:
+              DecorationImage(image: AssetImage("assets/home_background.png")),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: 100,
             ),
-          ),
-          Container(
-            child: FlatButton(
-                child: Container(
-                  child: Text('new film'),
-                ),
-                color: Colors.teal,
-                onPressed: () {
-                  FilmStock newfilm = new FilmStock(filmstockserial: 2);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return NewFilmScreen();
-                      },
+            InformationBoard(),
+            //add the horizontal ListView widget
+            Expanded(
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: filmcardlist.length,
+                itemBuilder: (BuildContext context, int index) {
+                  int filmcardserial = index + 1;
+                  return Container(
+                    width: 181,
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.all(20),
+                    child: Center(child: Text('$filmcardserial')),
+                    decoration: BoxDecoration(
+                      color: kfilmcardcolor,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   );
-                }),
-          )
-        ],
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+              ),
+            ),
+
+            Container(
+              child: FlatButton(
+                  child: Container(
+                    child: Text('new film'),
+                  ),
+                  color: Colors.teal,
+                  onPressed: () {
+                    FilmStock newfilm = new FilmStock(filmstockserial: 2);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return NewFilmScreen();
+                        },
+                      ),
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: 140,
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
@@ -80,3 +99,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
