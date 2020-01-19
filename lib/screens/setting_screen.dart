@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 
+import '../utilities/constants.dart';
+
 class SettingScreen extends StatefulWidget {
   @override
   _SettingScreenState createState() => _SettingScreenState();
@@ -35,20 +37,89 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Container(
                 padding: EdgeInsets.all(40),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Settings',
-                      style: ksettingtextstyle,
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Settings',
+                                style: ksettingtextstyle,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  'Aperture ',
+                                  style: kbodytextstyle,
+                                ),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text("",style: kbodytextstyle,),
+                                  color: Colors.teal,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(child: Text("Shutter ",style: kbodytextstyle,),flex: 1,),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "", style: kbodytextstyle,
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(child: Text("Lens ",style: kbodytextstyle,),flex: 1,),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "", style: kbodytextstyle,
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(child: Text("Location ",style: kbodytextstyle,),flex: 1,),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    'long:$longitude\nlat:$latitude',
+                                    style: kbodytextstyle,
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Aperture',
-                      style: kbodytextstyle,
-                    ),
-                    Text(
-                      '$longitude//$latitude',
-                      style: kbodytextstyle,
-                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Center(child: Text("Cupertino widget",style: kbodytextstyle,),),
+                    )
                   ],
                 ),
                 decoration: BoxDecoration(
