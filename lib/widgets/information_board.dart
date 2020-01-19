@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 
+import '../utilities/constants.dart';
+import '../utilities/constants.dart';
+import '../utilities/constants.dart';
+
 class InformationBoard extends StatelessWidget {
   Position position;
   double animationvalue;
@@ -17,20 +21,78 @@ class InformationBoard extends StatelessWidget {
       height: 200*animationvalue+200,
       padding: EdgeInsets.all(40),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Settings',
-            style: ksettingtextstyle,
+          Row(
+            children: <Widget>[
+              Text(
+                'Settings',
+                style: ksettingtextstyle,
+              ),
+            ],
           ),
-          Text(
-            'Aperture',
-            style: kbodytextstyle,
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Aperture ',
+                  style: kbodytextstyle,
+                ),
+                flex: 1,
+              ),
+              Expanded(
+                child: Container(
+                  child: Text("",style: kbodytextstyle,),
+                  color: Colors.teal,
+                ),
+                flex: 2,
+              )
+            ],
           ),
-          Text(
-            '$longitude//$latitude',
-            style: kbodytextstyle,
+          Row(
+            children: <Widget>[
+              Expanded(child: Text("Shutter ",style: kbodytextstyle,),flex: 1,),
+              Expanded(
+                child: Container(
+                  child: Text(
+                      "", style: kbodytextstyle,
+                  ),
+                  color: Colors.teal,
+                ),
+                flex: 2,
+              )
+            ],
           ),
+          Row(
+            children: <Widget>[
+              Expanded(child: Text("Lens ",style: kbodytextstyle,),flex: 1,),
+              Expanded(
+                child: Container(
+                  child: Text(
+                      "", style: kbodytextstyle,
+                  ),
+                  color: Colors.teal,
+                ),
+                flex: 2,
+              )
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(child: Text("Location ",style: kbodytextstyle,),flex: 1,),
+              Expanded(
+                child: Container(
+                  child: Text(
+                    'long:$longitude\nlat:$latitude',
+                    style: kbodytextstyle,
+                  ),
+                  color: Colors.teal,
+                ),
+                flex: 2,
+              )
+            ],
+          )
         ],
       ),
       margin: EdgeInsets.all(margin*20*animationvalue),
