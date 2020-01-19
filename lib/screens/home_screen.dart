@@ -1,6 +1,7 @@
 import 'package:film_camera_campanion/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
+import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:geolocator/geolocator.dart'; //location service package
 //authorisation functions in both systems are implemented
 import 'package:film_camera_campanion/utilities/filmstock.dart';
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
   bool selected = false;
+  ItemScrollController _scrollController = ItemScrollController();
+  int scrollIndex = 0;
 
   @override
   void initState() {
@@ -57,6 +60,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // function called when 'add' is pressed
+  void add(){
+    setState(() {
+      scrollIndex++;
+      _scrollController.scrollTo(index: scrollIndex, duration: Duration(milliseconds: 500));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: InformationBoard(position: widget.position, animationvalue: animation.value,margin: 1,))),
             //add the horizontal ListView widget
             Expanded(
-              child: ListView.separated(
+              child: ScrollablePositionedList.separated(
+                itemScrollController: _scrollController,
                 scrollDirection: Axis.horizontal,
                 itemCount: 42,
                 itemBuilder: (BuildContext context, int index) {
@@ -92,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     width: 180*animation.value,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     padding: EdgeInsets.all(20),
-                    child: Center(child: Text('$filmcardserial')),
+                    child: Center(child: Text("$filmcardserial")),
                     decoration: BoxDecoration(
                       color: kfilmcardcolor,
                       borderRadius: BorderRadius.circular(10),
@@ -140,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             setState(() {
               InformationBoard(position: widget.position, animationvalue: 1,margin: 1,);
             });
+            add();
           } catch (e) {
             print('fail to acquire location');
             displayDialog();

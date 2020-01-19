@@ -28,6 +28,7 @@ dependencies:
   animated_text_kit: ^2.0.0
   google_fonts: ^0.3.2
   dotenv: ^2.0.0
+  flutter_widgets: ^0.1.9
 
 dev_dependencies:
   flutter_test:
