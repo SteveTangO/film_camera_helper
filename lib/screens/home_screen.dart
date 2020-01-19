@@ -63,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // function called when 'add' is pressed
   void add(){
     setState(() {
-      scrollIndex++;
+      if (scrollIndex <41)
+        scrollIndex++;
       _scrollController.scrollTo(index: scrollIndex, duration: Duration(milliseconds: 500));
     });
   }
