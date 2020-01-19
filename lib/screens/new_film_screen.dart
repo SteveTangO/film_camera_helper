@@ -2,6 +2,7 @@ import 'package:film_camera_campanion/utilities/filmstock.dart';
 import 'package:flutter/material.dart';
 
 class NewFilmScreen extends StatelessWidget {
+  static String id = 'NewFilmScreen';
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
 

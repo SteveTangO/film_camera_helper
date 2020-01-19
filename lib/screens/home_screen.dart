@@ -1,3 +1,4 @@
+import 'package:film_camera_campanion/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:geolocator/geolocator.dart'; //location service package
@@ -6,22 +7,62 @@ import 'package:film_camera_campanion/utilities/filmstock.dart';
 import 'package:film_camera_campanion/screens/new_film_screen.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/widgets/information_board.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
+  Position position;
+
+  HomeScreen({this.position});
+
+  static String id = 'HomeScreen';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
   bool selected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: Duration(milliseconds: 1500), vsync: this);
+    controller.forward(from: 0.3);
+    animation = CurvedAnimation(parent: controller, curve: Curves.elasticOut);
+    animation.addStatusListener((status) {
+      print(status);
+    });
+    controller.addListener(() {
+      setState(() {});
+      print(animation.value);
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void displayDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => new CupertinoAlertDialog(
+        title: Text("Alert"),
+        content: Text('You haven\'t permit location service'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image:
-              DecorationImage(image: AssetImage("assets/home_background.png")),
+          image: DecorationImage(image: AssetImage('images/background.PNG')),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -30,7 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 100,
             ),
-            InformationBoard(),
+            GestureDetector(
+              onTap: (
+              ){
+                Navigator.push(context, CupertinoPageRoute(builder: (context)=>SettingScreen()));
+                print('tap');
+              },
+                child: Hero(
+                  tag: 'board',
+                    child: InformationBoard(position: widget.position, animationvalue: animation.value,margin: 1,))),
             //add the horizontal ListView widget
             Expanded(
               child: ListView.separated(
@@ -39,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   int filmcardserial = index + 1;
                   return Container(
-                    width: 181,
+                    height: 100*animation.value,
+                    width: 180*animation.value,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     padding: EdgeInsets.all(20),
                     child: Center(child: Text('$filmcardserial')),
@@ -85,8 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
             await location
                 .getLocation(); //utilise the getlocation function from Location class
             //todo: associate the location with other information
+            widget.position = location.position;
+            print(widget.position);
+            setState(() {
+              InformationBoard(position: widget.position, animationvalue: 1,margin: 1,);
+            });
           } catch (e) {
             print('fail to acquire location');
+            displayDialog();
             //todo: add an alert
           }
         },

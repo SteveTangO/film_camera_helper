@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/PictureData.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:dotenv/dotenv.dart';
 
 class Location {
   Location();
+  Position position;
 
   Future<void> getLocation() async {
-    Position position = await Geolocator()
+    position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
