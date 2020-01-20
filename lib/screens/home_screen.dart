@@ -26,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool selected = false;
   ItemScrollController _scrollController = ItemScrollController();
   int scrollIndex = 0;
-  List<PictureData> filmroll =
-      new List(42); //list of picture data for this film
+  List<PictureData> filmroll = new List(42); //list of picture data for this film
+  InformationBoard _informationBoard = InformationBoard();
+  bool shrink = false;
 
   @override
   void initState() {
@@ -82,28 +83,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(
-              child: SizedBox(
-                height: 100,
+            AnimatedContainer(
+              height: shrink? 0 : MediaQuery.of(context).size.height/20,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.fastOutSlowIn,
+                child: SizedBox(
+                  height: 100,
               ),
             ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => SettingScreen()));
-                  print('tap');
-                },
-                child: Hero(
-                    tag: 'board',
-                    child: InformationBoard(
-                      position: position,
-                      animationvalue: animation.value,
-                      margin: 1,
-                    ))),
-            //add the horizontal ListView widget
             Expanded(
+              child: GestureDetector(
+                child: Container(
+                  child: _informationBoard
+                ),
+                onTap: (){
+                  setState(() {
+                    shrink = !shrink;
+                    _informationBoard.toggleSelected();
+                  });
+                },
+              ),
+              flex: 15,
+            ),
+            //add the horizontal ListView widget
+            AnimatedContainer(
+              height: shrink? 0 : MediaQuery.of(context).size.height/5,
+              duration: Duration(milliseconds: 500),
               child: ScrollablePositionedList.separated(
                 itemScrollController: _scrollController,
                 scrollDirection: Axis.horizontal,
@@ -126,8 +131,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     const Divider(),
               ),
             ),
-
-            Container(
+            AnimatedContainer(
+              height: shrink? 0 : MediaQuery.of(context).size.height/30,
+              duration: Duration(milliseconds: 500),
+            ),
+            AnimatedContainer(
+              height: shrink? 0 : MediaQuery.of(context).size.height/20,
+              duration: Duration(milliseconds: 500),
               child: FlatButton(
                   child: Container(
                     child: Text('new film'),
@@ -145,11 +155,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }),
             ),
-            Expanded(
-              child: SizedBox(
-                height: 100,
-              ),
-            ),
+            AnimatedContainer(
+              height: shrink? 0 : MediaQuery.of(context).size.height/30,
+              duration: Duration(milliseconds: 500),
+            )
           ],
         ),
       ),
@@ -165,11 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             position = location.position;
             print(position);
             setState(() {
-              InformationBoard(
-                position: position,
-                animationvalue: 1,
-                margin: 1,
-              );
+              _informationBoard.setPosition(position);
             });
             add();
           } catch (e) {
