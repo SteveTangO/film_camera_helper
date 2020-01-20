@@ -8,21 +8,55 @@ class NewFilmScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('New Film'),
-      ),
-      body: ListView.builder(
-          padding: EdgeInsets.all(20),
-          scrollDirection: Axis.horizontal,
-          itemCount: entries.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: 50,
-              color: Colors.amber[colorCodes[index]],
-              child: Center(child: Text('Entry ${entries[index]}')),
-            );
-          }),
-    );
+    return Container(
+        color: Colors.amber[500],
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: SizedBox(),
+              flex: 1,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text("New", style: TextStyle(color: Colors.red, fontSize: 40, fontWeight: FontWeight.w800),),
+                    Text("Film Roll", style: TextStyle(color: Colors.red, fontSize: 40, fontWeight: FontWeight.w800),)
+                  ],
+                ),
+              ),
+              flex: 3,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text("One"),
+                  Text("Two")
+                ],
+              ),
+              flex: 3,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text("mm"),
+                  Text("Film Name"),
+                  Text("Serial Number")
+                ],
+              ),
+              flex: 3,
+            ),
+            Expanded(
+              child: SizedBox(),
+              flex: 1,
+            )
+          ],
+        ),
+      );
   }
 }
