@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 
 import '../utilities/constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -63,20 +64,9 @@ class _SettingScreenState extends State<SettingScreen> {
                               ),
                               Expanded(
                                 child: Container(
-                                  child: Text("",style: kbodytextstyle,),
-                                  color: Colors.teal,
-                                ),
-                                flex: 2,
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Shutter ",style: kbodytextstyle,),flex: 1,),
-                              Expanded(
-                                child: Container(
                                   child: Text(
-                                    "", style: kbodytextstyle,
+                                    "",
+                                    style: kbodytextstyle,
                                   ),
                                   color: Colors.teal,
                                 ),
@@ -86,11 +76,18 @@ class _SettingScreenState extends State<SettingScreen> {
                           ),
                           Row(
                             children: <Widget>[
-                              Expanded(child: Text("Lens ",style: kbodytextstyle,),flex: 1,),
+                              Expanded(
+                                child: Text(
+                                  "Shutter ",
+                                  style: kbodytextstyle,
+                                ),
+                                flex: 1,
+                              ),
                               Expanded(
                                 child: Container(
                                   child: Text(
-                                    "", style: kbodytextstyle,
+                                    "",
+                                    style: kbodytextstyle,
                                   ),
                                   color: Colors.teal,
                                 ),
@@ -100,7 +97,34 @@ class _SettingScreenState extends State<SettingScreen> {
                           ),
                           Row(
                             children: <Widget>[
-                              Expanded(child: Text("Location ",style: kbodytextstyle,),flex: 1,),
+                              Expanded(
+                                child: Text(
+                                  "Lens ",
+                                  style: kbodytextstyle,
+                                ),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    "",
+                                    style: kbodytextstyle,
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                                flex: 2,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text(
+                                  "Location ",
+                                  style: kbodytextstyle,
+                                ),
+                                flex: 1,
+                              ),
                               Expanded(
                                 child: Container(
                                   child: Text(
@@ -118,8 +142,38 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     Expanded(
                       flex: 3,
-                      child: Center(child: Text("Cupertino widget",style: kbodytextstyle,),),
-                    )
+                      child: Center(
+                        child: Text(
+                          "Cupertino widget",
+                          style: kbodytextstyle,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: CupertinoPicker(
+                          backgroundColor: kinformationboardcolor,
+                          itemExtent: 48.0,
+                          diameterRatio: 1,
+                          useMagnifier: true,
+                          looping: true,
+                          onSelectedItemChanged: (selectedIndex) {
+                            print(selectedIndex);
+                          },
+                          children: [
+                            Text(
+                              'alla',
+                              style: kpickertextstyle,
+                            ),
+                            Text(
+                              'sdd',
+                              style: kpickertextstyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 decoration: BoxDecoration(

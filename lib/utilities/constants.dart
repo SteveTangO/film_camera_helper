@@ -10,5 +10,7 @@ const kbodytextstyle =
     TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600);
 const kfilmcardcolor = Color(0xFFC6C7CE);
 const kbackgroundcolor = Color(0xFF737499);
-const ksettingtextstyle = TextStyle(
-    color: Colors.white, fontSize: 48, fontWeight: FontWeight.w900);
+const ksettingtextstyle =
+    TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.w900);
+const kpickertextstyle =
+    TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.w600);
