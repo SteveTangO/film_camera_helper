@@ -43,12 +43,7 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (context) => HomeScreen(
-                        position: position,
-                      )));
+          Navigator.pop(context);
         },
         child: SizedBox.expand(
           child: Container(

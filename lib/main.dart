@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: LoadingScreen.id,
+      initialRoute: HomeScreen.id,
       routes: {
-        //HomeScreen.id: (context) => HomeScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
         NewFilmScreen.id: (context) => NewFilmScreen(),
-        LoadingScreen.id: (context) => LoadingScreen(),
+        //LoadingScreen.id: (context) => LoadingScreen(),
       },
     );
   }

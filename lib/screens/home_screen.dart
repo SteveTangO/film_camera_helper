@@ -11,9 +11,6 @@ import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
-  Position position;
-
-  HomeScreen({this.position});
 
   static String id = 'HomeScreen';
 
@@ -22,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  Position position = Position(longitude: 0,latitude: 0);
   AnimationController controller;
   Animation animation;
   bool selected = false;
@@ -93,7 +91,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               },
                 child: Hero(
                   tag: 'board',
-                    child: InformationBoard(position: widget.position, animationvalue: animation.value,margin: 1,))),
+                    child: InformationBoard(position: position, animationvalue: animation.value,margin: 1,)
+                )
+            ),
             //add the horizontal ListView widget
             Expanded(
               child: ScrollablePositionedList.separated(
@@ -152,10 +152,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             await location
                 .getLocation(); //utilise the getlocation function from Location class
             //todo: associate the location with other information
-            widget.position = location.position;
-            print(widget.position);
+            position = location.position;
+            print(position);
             setState(() {
-              InformationBoard(position: widget.position, animationvalue: 1,margin: 1,);
+              InformationBoard(position: position, animationvalue: 1,margin: 1,);
             });
             add();
           } catch (e) {

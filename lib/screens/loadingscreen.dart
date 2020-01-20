@@ -6,7 +6,7 @@ import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/cupertino.dart';
-
+/*
 class LoadingScreen extends StatefulWidget {
   static String id = 'LoadingScreen';
 
@@ -88,3 +88,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 }
+
+
+ */
