@@ -80,8 +80,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 100,
+            Expanded(
+              child: SizedBox(
+                height: 100,
+              ),
             ),
             GestureDetector(
               onTap: (
@@ -135,8 +137,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }),
             ),
-            SizedBox(
-              height: 140,
+            Expanded(
+              child: SizedBox(
+                height: 100,
+              ),
             ),
           ],
         ),
