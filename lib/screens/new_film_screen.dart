@@ -1,3 +1,4 @@
+import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/utilities/filmstock.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,9 @@ class NewFilmScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.amber[500],
+    return Scaffold(
+      body: Container(
+        color: kkodakyellow,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
@@ -23,8 +25,20 @@ class NewFilmScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Text("New", style: TextStyle(color: Colors.red, fontSize: 40, fontWeight: FontWeight.w800),),
-                    Text("Film Roll", style: TextStyle(color: Colors.red, fontSize: 40, fontWeight: FontWeight.w800),)
+                    Text(
+                      "New",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w800),
+                    ),
+                    Text(
+                      "Film Roll",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w800),
+                    )
                   ],
                 ),
               ),
@@ -33,10 +47,7 @@ class NewFilmScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Text("One"),
-                  Text("Two")
-                ],
+                children: <Widget>[Text("One"), Text("Two")],
               ),
               flex: 3,
             ),
@@ -57,6 +68,7 @@ class NewFilmScreen extends StatelessWidget {
             )
           ],
         ),
-      );
+      ),
+    );
   }
 }
