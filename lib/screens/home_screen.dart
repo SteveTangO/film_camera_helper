@@ -1,4 +1,5 @@
 import 'package:film_camera_campanion/screens/setting_screen.dart';
+import 'package:film_camera_campanion/utilities/PictureData.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
@@ -27,12 +28,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool selected = false;
   ItemScrollController _scrollController = ItemScrollController();
   int scrollIndex = 0;
+  List<PictureData> filmroll =
+      new List(42); //list of picture data for this film
 
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(duration: Duration(milliseconds: 1500), vsync: this);
+    controller = AnimationController(
+        duration: Duration(milliseconds: 1500), vsync: this);
     controller.forward(from: 0.3);
     animation = CurvedAnimation(parent: controller, curve: Curves.elasticOut);
     animation.addStatusListener((status) {
@@ -50,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  //TODO: improve the user guide
   void displayDialog() {
     showDialog(
       context: context,
@@ -61,11 +65,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // function called when 'add' is pressed
-  void add(){
+  void add() {
     setState(() {
-      if (scrollIndex <41)
-        scrollIndex++;
-      _scrollController.scrollTo(index: scrollIndex, duration: Duration(milliseconds: 500));
+      if (scrollIndex < 41) scrollIndex++;
+      _scrollController.scrollTo(
+          index: scrollIndex, duration: Duration(milliseconds: 500));
     });
   }
 
@@ -86,14 +90,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             GestureDetector(
-              onTap: (
-              ){
-                Navigator.push(context, CupertinoPageRoute(builder: (context)=>SettingScreen()));
-                print('tap');
-              },
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => SettingScreen()));
+                  print('tap');
+                },
                 child: Hero(
-                  tag: 'board',
-                    child: InformationBoard(position: widget.position, animationvalue: animation.value,margin: 1,))),
+                    tag: 'board',
+                    child: InformationBoard(
+                      position: widget.position,
+                      animationvalue: animation.value,
+                      margin: 1,
+                    ))),
             //add the horizontal ListView widget
             Expanded(
               child: ScrollablePositionedList.separated(
@@ -103,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 itemBuilder: (BuildContext context, int index) {
                   int filmcardserial = index + 1;
                   return Container(
-                    height: 100*animation.value,
-                    width: 180*animation.value,
+                    height: 100 * animation.value,
+                    width: 180 * animation.value,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     padding: EdgeInsets.all(20),
                     child: Center(child: Text("$filmcardserial")),
@@ -148,6 +158,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           try {
+            filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
+            print('this is the NO${scrollIndex + 1} film');
             Location location = Location(); //construct a location object
             await location
                 .getLocation(); //utilise the getlocation function from Location class
@@ -155,7 +167,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             widget.position = location.position;
             print(widget.position);
             setState(() {
-              InformationBoard(position: widget.position, animationvalue: 1,margin: 1,);
+              InformationBoard(
+                position: widget.position,
+                animationvalue: 1,
+                margin: 1,
+              );
             });
             add();
           } catch (e) {
