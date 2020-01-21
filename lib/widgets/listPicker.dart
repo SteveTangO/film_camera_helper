@@ -3,25 +3,23 @@ import 'package:flutter/material.dart';
 
 class ListPicker extends StatelessWidget{
 
-  List<double> options;
-  ListPicker({@required this.options,this.intValue, this.callback});
-  final bool intValue; // specifies if value shown should be int
-  void Function(double) callback;
+  List<String> options;
+  ListPicker({@required this.options, this.callback});
+  void Function(String) callback;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60,
+      width: 80,
       child: ListView.builder(
         itemCount: options.length,
-        itemBuilder: (BuildContext context, int index){
-          var option = intValue? options[index].toInt():options[index];
+        itemBuilder: (BuildContext context, int index){;
           return GestureDetector(
             child: Container(
               color: kinformationboardcolor,
               height: 50,
               child: Center(
-                child: Text("$option", style: kbodytextstyle,),
+                child: Text("${options[index]}", style: kbodytextstyle,),
               ),
             ),
             onTap: (){

@@ -17,7 +17,7 @@ const kpickertextstyle =
 const kkodakred = Color(0xFFEB1D27);
 const kkodakyellow = Color(0xFFFFB700);
 
-const List<double> apertureonethirdstop = [
+List<String> kapertureonethirdstop = [
   0.7,
   0.8,
   0.9,
@@ -61,9 +61,9 @@ const List<double> apertureonethirdstop = [
   72,
   80,
   90,
-];
+].map((int)=>int.toString()).toList();
 
-const List<String> shutterspeed = [
+const List<String> kshutterspeed = [
   '1/2',
   '1/4',
   '1/8',
@@ -79,7 +79,7 @@ const List<String> shutterspeed = [
   '1/8000',
 ];
 
-const List<double> Lens = [
+List<String> klens = [
   18,
   24,
   35,
@@ -90,4 +90,5 @@ const List<double> Lens = [
   135,
   200,
   300,
-];
+].map((int)=>int.toString()).toList();
+

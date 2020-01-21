@@ -28,23 +28,29 @@ class _InformationBoardState extends State<InformationBoard>{
   //fields
   Position position = Position(latitude: 0,longitude: 0);
   bool selected = false;
-  double aperture = 0;
-  int shutter = 0;
-  int lens = 0;
+  String aperture = '0';
+  String shutter = '1/1';
+  String lens = '0';
+
+  PageController _pageController = PageController(initialPage: 0);
 
   //method
-  void _setAperture(double value){
+  void _setAperture(String value){
     setState(() {
       aperture = value;
     });
   }
 
-  void _setShutter(double value){
-    shutter = value.toInt();
+  void _setShutter(String value){
+    setState(() {
+      shutter = value;
+    });
   }
 
-  void _setLens(double value){
-    lens = value.toInt();
+  void _setLens(String value){
+    setState(() {
+      lens = value;
+    });
   }
 
   void setPosition(Position position){
@@ -69,7 +75,7 @@ class _InformationBoardState extends State<InformationBoard>{
     return AnimatedContainer(
           height: selected? MediaQuery.of(context).size.height:100,
           width: selected? MediaQuery.of(context).size.width:200,
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: 300),
           curve: Curves.fastLinearToSlowEaseIn,
           padding: EdgeInsets.all(40),
           child: Column(
@@ -95,11 +101,11 @@ class _InformationBoardState extends State<InformationBoard>{
                   ),
                   Expanded(
                     child: Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.teal),
                       child: Text(
-                        "$aperture",
+                        " $aperture",
                         style: kbodytextstyle,
                       ),
-                      color: Colors.teal,
                     ),
                     flex: 2,
                   )
@@ -117,10 +123,10 @@ class _InformationBoardState extends State<InformationBoard>{
                   Expanded(
                     child: Container(
                       child: Text(
-                        "1/$shutter",
+                        " ${shutter}S",
                         style: kbodytextstyle,
                       ),
-                      color: Colors.teal,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.teal),
                     ),
                     flex: 2,
                   )
@@ -138,10 +144,10 @@ class _InformationBoardState extends State<InformationBoard>{
                   Expanded(
                     child: Container(
                       child: Text(
-                        "$lens",
+                        " $lens",
                         style: kbodytextstyle,
                       ),
-                      color: Colors.teal,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.teal),
                     ),
                     flex: 2,
                   )
@@ -159,10 +165,10 @@ class _InformationBoardState extends State<InformationBoard>{
                   Expanded(
                     child: Container(
                       child: Text(
-                        'long:$longitude\nlat:$latitude',
+                        ' long:$longitude\n lat:$latitude',
                         style: kbodytextstyle,
                       ),
-                      color: Colors.teal,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.teal),
                     ),
                     flex: 2,
                   )
@@ -170,24 +176,60 @@ class _InformationBoardState extends State<InformationBoard>{
               ),
               AnimatedContainer(
                 height: selected? MediaQuery.of(context).size.height/2 : 0,
-                duration: Duration(milliseconds: 500),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Center(child: Text("Aperture", style: kbodytextstyle,),
-                    ),
-                    ),
-                    Expanded(
-                      flex:2,
-                      child: ListPicker(
-                        options: [100,200,300,400,500,600,700,800,900,1000],
-                        intValue: true,
-                        callback: _setAperture,
+                duration: Duration(milliseconds: 300),
+                  child: PageView(
+                    controller: _pageController,
+                    children: [
+                      Column(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Center(child: Text("Aperture", style: kbodytextstyle,),
+                          ),
+                          ),
+                          Expanded(
+                            flex:2,
+                            child: ListPicker(
+                              options: kapertureonethirdstop,
+                              callback: _setAperture,
+                            )
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Center(child: Text("Shutter", style: kbodytextstyle,),
+                            ),
+                          ),
+                          Expanded(
+                              flex:2,
+                              child: ListPicker(
+                                options: kshutterspeed,
+                                callback: _setShutter,
+                              )
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Center(child: Text("Lens", style: kbodytextstyle,),
+                            ),
+                          ),
+                          Expanded(
+                              flex:2,
+                              child: ListPicker(
+                                options: klens,
+                                callback: _setLens,
+                              )
+                          )
+                        ],
                       )
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               )
             ],
           ),
