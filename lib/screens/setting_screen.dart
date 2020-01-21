@@ -1,4 +1,4 @@
-import 'package:film_camera_campanion/screens/home_screen.dart';
+/*import 'package:film_camera_campanion/screens/home_screen.dart';
 import 'package:film_camera_campanion/utilities/PictureData.dart';
 import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:film_camera_campanion/widgets/listPicker.dart';
@@ -193,3 +193,6 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 }
+
+
+ */

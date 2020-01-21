@@ -10,24 +10,27 @@ class ListPicker extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: options.length,
-      itemBuilder: (BuildContext context, int index){
-        var option = intValue? options[index].toInt():options[index];
-        return GestureDetector(
-          child: Container(
-            color: kinformationboardcolor,
-            height: 50,
-            child: Center(
-              child: Text("$option", style: kbodytextstyle,),
+    return Container(
+      width: 60,
+      child: ListView.builder(
+        itemCount: options.length,
+        itemBuilder: (BuildContext context, int index){
+          var option = intValue? options[index].toInt():options[index];
+          return GestureDetector(
+            child: Container(
+              color: kinformationboardcolor,
+              height: 50,
+              child: Center(
+                child: Text("$option", style: kbodytextstyle,),
+              ),
             ),
-          ),
-          onTap: (){
-            callback(options[index]);
-          },
-        );
-      },
-      //separatorBuilder: (BuildContext context,int index) => Divider(),
+            onTap: (){
+              callback(options[index]);
+            },
+          );
+        },
+        //separatorBuilder: (BuildContext context,int index) => Divider(),
+      ),
     );
   }
 }

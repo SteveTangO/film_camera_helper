@@ -5,6 +5,7 @@ import 'package:film_camera_campanion/utilities/constants.dart';
 import '../utilities/constants.dart';
 import '../utilities/constants.dart';
 import '../utilities/constants.dart';
+import '../widgets/listPicker.dart';
 
 class InformationBoard extends StatefulWidget{
 
@@ -27,8 +28,25 @@ class _InformationBoardState extends State<InformationBoard>{
   //fields
   Position position = Position(latitude: 0,longitude: 0);
   bool selected = false;
+  double aperture = 0;
+  int shutter = 0;
+  int lens = 0;
 
   //method
+  void _setAperture(double value){
+    setState(() {
+      aperture = value;
+    });
+  }
+
+  void _setShutter(double value){
+    shutter = value.toInt();
+  }
+
+  void _setLens(double value){
+    lens = value.toInt();
+  }
+
   void setPosition(Position position){
     setState(() {
       this.position = position;
@@ -61,7 +79,7 @@ class _InformationBoardState extends State<InformationBoard>{
               Row(
                 children: <Widget>[
                   Text(
-                    'Setting',
+                    'Settings',
                     style: ksettingtextstyle,
                   ),
                 ],
@@ -77,20 +95,9 @@ class _InformationBoardState extends State<InformationBoard>{
                   ),
                   Expanded(
                     child: Container(
-                      child: Text("",style: kbodytextstyle,),
-                      color: Colors.teal,
-                    ),
-                    flex: 2,
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(child: Text("Shutter ",style: kbodytextstyle,),flex: 1,),
-                  Expanded(
-                    child: Container(
                       child: Text(
-                        "", style: kbodytextstyle,
+                        "$aperture",
+                        style: kbodytextstyle,
                       ),
                       color: Colors.teal,
                     ),
@@ -100,11 +107,18 @@ class _InformationBoardState extends State<InformationBoard>{
               ),
               Row(
                 children: <Widget>[
-                  Expanded(child: Text("Lens ",style: kbodytextstyle,),flex: 1,),
+                  Expanded(
+                    child: Text(
+                      "Shutter ",
+                      style: kbodytextstyle,
+                    ),
+                    flex: 1,
+                  ),
                   Expanded(
                     child: Container(
                       child: Text(
-                        "", style: kbodytextstyle,
+                        "1/$shutter",
+                        style: kbodytextstyle,
                       ),
                       color: Colors.teal,
                     ),
@@ -114,7 +128,34 @@ class _InformationBoardState extends State<InformationBoard>{
               ),
               Row(
                 children: <Widget>[
-                  Expanded(child: Text("Location ",style: kbodytextstyle,),flex: 1,),
+                  Expanded(
+                    child: Text(
+                      "Lens ",
+                      style: kbodytextstyle,
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Text(
+                        "$lens",
+                        style: kbodytextstyle,
+                      ),
+                      color: Colors.teal,
+                    ),
+                    flex: 2,
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      "Location ",
+                      style: kbodytextstyle,
+                    ),
+                    flex: 1,
+                  ),
                   Expanded(
                     child: Container(
                       child: Text(
@@ -126,6 +167,27 @@ class _InformationBoardState extends State<InformationBoard>{
                     flex: 2,
                   )
                 ],
+              ),
+              AnimatedContainer(
+                height: selected? MediaQuery.of(context).size.height/2 : 0,
+                duration: Duration(milliseconds: 500),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Center(child: Text("Aperture", style: kbodytextstyle,),
+                    ),
+                    ),
+                    Expanded(
+                      flex:2,
+                      child: ListPicker(
+                        options: [100,200,300,400,500,600,700,800,900,1000],
+                        intValue: true,
+                        callback: _setAperture,
+                      )
+                    ),
+                  ],
+                ),
               )
             ],
           ),
