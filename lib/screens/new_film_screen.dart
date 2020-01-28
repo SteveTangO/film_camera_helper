@@ -99,7 +99,7 @@ class _AnimationState extends State<Animationss> {
   Widget build(BuildContext context) {
     return new FlareActor(
       'images/kodakbackground.flr',
-      animation: "Untitled",
+      animation: "push",
     );
   }
 }
