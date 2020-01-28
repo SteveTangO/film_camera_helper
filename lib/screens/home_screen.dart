@@ -1,4 +1,3 @@
-import 'package:film_camera_campanion/screens/setting_screen.dart';
 import 'package:film_camera_campanion/utilities/PictureData.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
@@ -108,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             //add the horizontal ListView widget
             AnimatedContainer(
               height: shrink? 0 : MediaQuery.of(context).size.height/5,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
               child: ScrollablePositionedList.separated(
                 itemScrollController: _scrollController,
                 scrollDirection: Axis.horizontal,
@@ -133,12 +132,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             AnimatedContainer(
               height: shrink? 0 : MediaQuery.of(context).size.height/30,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
             ),
             AnimatedContainer(
               height: shrink? 0 : MediaQuery.of(context).size.height/20,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
               child: FlatButton(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   child: Container(
                     child: Text('new film'),
                   ),
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             AnimatedContainer(
               height: shrink? 0 : MediaQuery.of(context).size.height/30,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
             )
           ],
         ),
