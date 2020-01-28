@@ -11,7 +11,6 @@ import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
-
   static String id = 'HomeScreen';
 
   @override
@@ -19,13 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  Position position = Position(longitude: 0,latitude: 0);
+  Position position = Position(longitude: 0, latitude: 0);
   AnimationController controller;
   Animation animation;
   bool selected = false;
   ItemScrollController _scrollController = ItemScrollController();
   int scrollIndex = 0;
-  List<PictureData> filmroll = new List(42); //list of picture data for this film
+  List<PictureData> filmroll =
+      new List(42); //list of picture data for this film
   InformationBoard _informationBoard = InformationBoard();
   bool shrink = false;
 
@@ -83,19 +83,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             AnimatedContainer(
-              height: shrink? 0 : MediaQuery.of(context).size.height/20,
+              height: shrink ? 0 : MediaQuery.of(context).size.height / 20,
               duration: Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn,
-                child: SizedBox(
-                  height: 100,
+              child: SizedBox(
+                height: 100,
               ),
             ),
             Expanded(
               child: GestureDetector(
-                child: Container(
-                  child: _informationBoard
-                ),
-                onTap: (){
+                child: Container(child: _informationBoard),
+                onTap: () {
                   setState(() {
                     shrink = !shrink;
                     _informationBoard.toggleSelected();
@@ -106,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             //add the horizontal ListView widget
             AnimatedContainer(
-              height: shrink? 0 : MediaQuery.of(context).size.height/5,
+              height: shrink ? 0 : MediaQuery.of(context).size.height / 5,
               duration: Duration(milliseconds: 300),
               child: ScrollablePositionedList.separated(
                 itemScrollController: _scrollController,
@@ -131,14 +129,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             AnimatedContainer(
-              height: shrink? 0 : MediaQuery.of(context).size.height/30,
+              height: shrink ? 0 : MediaQuery.of(context).size.height / 30,
               duration: Duration(milliseconds: 300),
             ),
             AnimatedContainer(
-              height: shrink? 0 : MediaQuery.of(context).size.height/20,
+              height: shrink ? 0 : MediaQuery.of(context).size.height / 20,
               duration: Duration(milliseconds: 300),
               child: FlatButton(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
                   child: Container(
                     child: Text('new film'),
                   ),
@@ -156,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   }),
             ),
             AnimatedContainer(
-              height: shrink? 0 : MediaQuery.of(context).size.height/30,
+              height: shrink ? 0 : MediaQuery.of(context).size.height / 30,
               duration: Duration(milliseconds: 300),
             )
           ],

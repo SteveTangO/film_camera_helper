@@ -10,6 +10,7 @@ class NewFilmScreen extends StatelessWidget {
   static String id = 'NewFilmScreen';
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
+  double filmmeasure = 35;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,20 @@ class NewFilmScreen extends StatelessWidget {
               color: kkodakyellow,
             ),
           ),
+//          Column(
+//            children: <Widget>[
+//              SizedBox(
+//                height: 630,
+//              ),
+//              Text(
+//                "  35mm",
+//                style: TextStyle(
+//                    color: Colors.black,
+//                    fontSize: 36,
+//                    fontWeight: FontWeight.w800),
+//              ),
+//            ],
+//          ),//just for playing
           Positioned(
             top: 500,
             child: Container(
@@ -40,45 +55,75 @@ class NewFilmScreen extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          "New",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w800),
+                    child: Container(
+                      child: TextField(
+                        maxLines: 2,
+                        decoration: InputDecoration(
+                          hintText: 'Film Name',
+                          hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 64),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
                         ),
-                        Text(
-                          "Film Roll",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w800),
-                        )
-                      ],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 64),
+                        onChanged: (value) {
+                          print(value);
+                        },
+                        cursorColor: Colors.white,
+                        autofocus: false,
+                      ),
                     ),
                   ),
-                  flex: 3,
+                  flex: 2,
                 ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[Text("One"), Text("Two")],
                   ),
-                  flex: 3,
+                  flex: 2,
                 ),
                 Expanded(
+                  flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text("mm"),
-                      Text("Film Name"),
-                      Text("Serial Number")
+                      Text(
+                        "  New",
+                        style: TextStyle(
+                            color: kkodakyellow,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        "  Film Roll",
+                        style: TextStyle(
+                            color: kkodakred,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ChooseFilmSize(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "  NO.2",
+                        style: TextStyle(
+                            color: kkodakyellow,
+                            fontSize: 36,
+                            fontWeight: FontWeight.w800),
+                      ),
                     ],
                   ),
-                  flex: 3,
                 ),
               ],
             ),
@@ -100,6 +145,46 @@ class _AnimationState extends State<Animationss> {
     return new FlareActor(
       'images/kodakbackground.flr',
       animation: "push",
+    );
+  }
+}
+
+class ChooseFilmSize extends StatefulWidget {
+  @override
+  _ChooseFilmSizeState createState() => _ChooseFilmSizeState();
+}
+
+class _ChooseFilmSizeState extends State<ChooseFilmSize> {
+  double filmmeasure = 3;
+  String filmsize = "  35mm";
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(
+          filmsize,
+          style: TextStyle(
+              color: kkodakyellow, fontSize: 36, fontWeight: FontWeight.w800),
+        ),
+        Slider(
+          value: filmmeasure,
+          min: 1,
+          max: 5,
+          divisions: 5,
+          onChanged: (double newvalue) {
+            print(newvalue);
+            setState(() {
+              filmmeasure = newvalue;
+              if (newvalue == 1) {
+                filmsize = '8mm';
+              } else if (newvalue == 1.8) {
+                filmsize = '16mm';
+              }
+            });
+          },
+        ),
+      ],
     );
   }
 }
