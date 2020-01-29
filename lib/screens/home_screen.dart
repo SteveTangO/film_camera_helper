@@ -10,8 +10,14 @@ import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:flutter/cupertino.dart';
 
+int filmStockNo = 0; //serial of the film stocks
+//todo: store this number so when the app restarts, the number won't be 0
+
 class HomeScreen extends StatefulWidget {
   static String id = 'HomeScreen';
+  FilmStock newFilmStock;
+
+  HomeScreen({this.newFilmStock});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -143,12 +149,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   color: Colors.teal,
                   onPressed: () {
-                    FilmStock newfilm = new FilmStock(filmstockserial: 2);
+                    FilmStock newfilm = new FilmStock(filmStockNo: 2);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return NewFilmScreen();
+                          filmStockNo++;
+                          return NewFilmScreen(filmStockNo: filmStockNo);
                         },
                       ),
                     );
