@@ -25,6 +25,11 @@ dependencies:
   cupertino_icons: ^0.1.2
   geolocator: ^5.2.0
   google_maps_flutter: ^0.5.21+15
+  animated_text_kit: ^2.0.0
+  google_fonts: ^0.3.2
+  dotenv: ^2.0.0
+  flutter_widgets: ^0.1.9
+  flare_flutter: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -36,15 +41,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  assets:
+    - images/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
