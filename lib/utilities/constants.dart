@@ -100,7 +100,7 @@ const List<String> kEXR = [
   "14",
   "15",
   "16"
-]
+];
 
 const List<String> kISO = [
   "0.8/0°",

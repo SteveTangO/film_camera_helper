@@ -198,10 +198,11 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
+                        child:ListPicker(
                           options: kapertureonethirdstop,
                           callback: _setAperture,
-                        ))
+                        )
+                    )
                   ],
                 ),
                 Column(
