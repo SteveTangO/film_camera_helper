@@ -30,6 +30,7 @@ dependencies:
   dotenv: ^2.0.0
   flutter_widgets: ^0.1.9
   flare_flutter: ^2.0.1
+  sqflite: ^1.2.0
 
 dev_dependencies:
   flutter_test:

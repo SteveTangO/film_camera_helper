@@ -50,10 +50,10 @@ class NewFilmScreen extends StatelessWidget {
 //            ],
 //          ),//just for playing
           Positioned(
-            top: SizeConfig.blockSizeVertical * 55,
+            top: SizeConfig.blockSizeVertical * 30,
             child: Container(
               child: Animationss(),
-              height: SizeConfig.screenWidth,
+              height: SizeConfig.blockSizeVertical * 66,
               width: SizeConfig.screenWidth,
             ),
           ),
@@ -110,25 +110,27 @@ class NewFilmScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+//                        Container(
+//                          height: SizeConfig.safeBlockVertical * 7,
+//                          margin: EdgeInsets.symmetric(horizontal: 20),
+//                          child: Text(
+//                            "New Film",
+//                            style: TextStyle(
+//                                color: kkodakyellow,
+//                                fontSize: SizeConfig.safeBlockHorizontal * 10,
+//                                fontWeight: FontWeight.w800),
+//                          ),
+//                        ),
+
                         Container(
                           height: SizeConfig.safeBlockVertical * 7,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.safeBlockHorizontal * 8),
                           child: Text(
-                            "New Film",
+                            "Film Format",
                             style: TextStyle(
                                 color: kkodakyellow,
-                                fontSize: SizeConfig.safeBlockHorizontal * 10,
-                                fontWeight: FontWeight.w800),
-                          ),
-                        ),
-                        Container(
-                          height: SizeConfig.safeBlockVertical * 7,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            "Format",
-                            style: TextStyle(
-                                color: kkodakred,
-                                fontSize: SizeConfig.safeBlockHorizontal * 10,
+                                fontSize: SizeConfig.safeBlockHorizontal * 12,
                                 fontWeight: FontWeight.w800),
                           ),
                         ),
@@ -136,25 +138,31 @@ class NewFilmScreen extends StatelessWidget {
                           height: SizeConfig.safeBlockVertical * 1,
                         ),
                         ChooseFilmSize(),
-                        SizedBox(
-                          height: SizeConfig.safeBlockVertical * 2,
-                        ),
-                        Container(
-                          height: SizeConfig.safeBlockVertical * 7,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            "NO.$filmStockNo",
-                            style: TextStyle(
-                                color: kkodakyellow,
-                                fontSize: SizeConfig.safeBlockHorizontal * 10,
-                                fontWeight: FontWeight.w800),
-                          ),
-                        ),
+
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.symmetric(horizontal: 50),
+                              height: SizeConfig.safeBlockVertical * 7,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal:
+                                      SizeConfig.safeBlockHorizontal * 8),
+                              child: Text(
+                                "NO.$filmStockNo",
+                                style: TextStyle(
+                                    color: kkodakyellow,
+                                    fontSize:
+                                        SizeConfig.safeBlockHorizontal * 10,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                            SizedBox(
+                              width: SizeConfig.safeBlockHorizontal * 12,
+                            ),
+                            Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal:
+                                        SizeConfig.safeBlockHorizontal * 10),
                                 child: IconButtonReturn(
                                   filmStockNo: filmStockNo,
                                   filmiso: filmiso,
@@ -205,60 +213,67 @@ class _ChooseFilmSizeState extends State<ChooseFilmSize> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.safeBlockVertical * 6,
+      height: SizeConfig.safeBlockVertical * 17,
       child: Row(
-        textBaseline: TextBaseline.alphabetic,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            width: SizeConfig.safeBlockHorizontal * 40,
-            margin: EdgeInsets.symmetric(
-                horizontal: SizeConfig.safeBlockHorizontal * 5), //20
-            child: Text(
-              filmsize,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 9.5,
-                  fontWeight: FontWeight.w800),
-            ),
+          SizedBox(
+            width: SizeConfig.safeBlockHorizontal * 3,
           ),
-          SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              disabledThumbColor: Colors.white,
-              disabledInactiveTrackColor: kkodakyellow,
-              inactiveTickMarkColor: Colors.white,
-              inactiveTrackColor: kkodakyellow,
-              activeTrackColor: Colors.white,
-              thumbColor: kkodakyellow,
-//            thumbShape: RoundSliderOverlayShape(overlayRadius: 20),
-              overlayColor: kkodakyellow,
-            ),
-            child: Container(
-              width: SizeConfig.safeBlockHorizontal * 50,
-              child: Slider(
-                value: filmmeasure,
-                min: 1,
-                max: 5,
-                divisions: 4,
-                onChanged: (double newvalue) {
-                  print(newvalue);
-                  setState(() {
-                    filmmeasure = newvalue;
-                    if (newvalue == 1) {
-                      filmsize = '8 mm';
-                    } else if (newvalue == 2) {
-                      filmsize = '16 mm';
-                    } else if (newvalue == 3) {
-                      filmsize = '35 mm';
-                    } else if (newvalue == 4) {
-                      filmsize = 'MEDIUM';
-                    } else if (newvalue == 5) {
-                      filmsize = 'LARGE';
-                    }
-                  });
-                },
+          Column(
+            textBaseline: TextBaseline.alphabetic,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: SizeConfig.safeBlockHorizontal * 60,
+                margin: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.safeBlockHorizontal * 5), //20
+                child: Text(
+                  filmsize,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: SizeConfig.safeBlockHorizontal * 12,
+                      fontWeight: FontWeight.w800),
+                ),
               ),
-            ),
+              SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  disabledThumbColor: Colors.white,
+                  disabledInactiveTrackColor: kkodakyellow,
+                  inactiveTickMarkColor: Colors.white,
+                  inactiveTrackColor: kkodakyellow,
+                  activeTrackColor: kkodakyellow,
+                  thumbColor: kkodakyellow,
+//            thumbShape: RoundSliderOverlayShape(overlayRadius: 20),
+                  overlayColor: kkodakyellow,
+                ),
+                child: Container(
+                  width: SizeConfig.safeBlockHorizontal * 50,
+                  child: Slider(
+                    value: filmmeasure,
+                    min: 1,
+                    max: 5,
+                    divisions: 4,
+                    onChanged: (double newvalue) {
+                      print(newvalue);
+                      setState(() {
+                        filmmeasure = newvalue;
+                        if (newvalue == 1) {
+                          filmsize = '8 mm';
+                        } else if (newvalue == 2) {
+                          filmsize = '16 mm';
+                        } else if (newvalue == 3) {
+                          filmsize = '35 mm';
+                        } else if (newvalue == 4) {
+                          filmsize = 'MEDIUM';
+                        } else if (newvalue == 5) {
+                          filmsize = 'LARGE';
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
