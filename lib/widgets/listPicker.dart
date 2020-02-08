@@ -4,17 +4,31 @@ import 'package:flutter/material.dart';
 
 class ListPicker extends StatefulWidget{
 
+  // general fields
   List<String> options; // list of options to show
   void Function(String) callback; // callback when chosen value changes
+  Axis scrollDirection;
+  TextStyle defaultStyle;
+  TextStyle selectedStyle;
+  bool horizontalLine;
+
+  // vertical list specific fields
   double itemHeight; // height of each item in list
-  bool horizontalLine; // if true, renders a horizontal line on each side
+
+  // horizontal list specific fields
+  double itemWidth;
+
 
   // constructor
   ListPicker({
     @required this.options,
     this.callback,
+    this.scrollDirection,
+    this.defaultStyle,
+    this.selectedStyle,
+    this.horizontalLine,
     this.itemHeight,
-    this.horizontalLine
+    this.itemWidth
   });
 
   @override
@@ -23,14 +37,20 @@ class ListPicker extends StatefulWidget{
 
 class _ListPickerState extends State<ListPicker>{
 
+  int selected = 0;
+
   List<String> options;
   void Function(String) callback;
-  int selected = 0;
-  double itemHeight;
+  Axis scrollDirection;
+  TextStyle defaultStyle;
+  TextStyle selectedStyle;
   bool horizontalLine;
 
-  ScrollController scrollController = ScrollController();
+  double itemHeight;
 
+  double itemWidth;
+
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +61,17 @@ class _ListPickerState extends State<ListPicker>{
     // get values from parent widget
     options = widget.options;
     callback = widget.callback;
-    itemHeight = widget.itemHeight;
+    scrollDirection = widget.scrollDirection == null? Axis.vertical: widget.scrollDirection;
+    defaultStyle = widget.defaultStyle == null?
+      TextStyle(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.w600):widget.defaultStyle;
+    selectedStyle = widget.selectedStyle == null?
+      TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w600):widget.selectedStyle;
+    itemHeight = widget.itemHeight == null?
+        SizeConfig.safeBlockVertical*7: widget.itemHeight;
+    itemWidth = widget.itemWidth == null?
+        SizeConfig.safeBlockHorizontal*14: widget.itemWidth;
     horizontalLine = widget.horizontalLine;
-
-    itemHeight = itemHeight == null? SizeConfig.safeBlockVertical * 7 : itemHeight;
-    horizontalLine = horizontalLine == null? true:horizontalLine;
-
-    // define textstyles
-    TextStyle defaultTextStyle = TextStyle(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.w600);
-    TextStyle selectedTextStyle = TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w600);
+    if (horizontalLine == null){horizontalLine = true;}
 
     return  Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -59,15 +81,25 @@ class _ListPickerState extends State<ListPicker>{
         horizontalLine? HorizontalLine(itemHeight: itemHeight,):SizedBox(height: 0,),
         // list picker
         Container(
-            width: SizeConfig.blockSizeHorizontal*28,
+            width: itemWidth*2,
+            //height: scrollDirection == Axis.horizontal? itemHeight/1.3: null,
             //color: Colors.green,
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
                   if (scrollNotification is ScrollUpdateNotification){
-                    if (selected != (scrollController.offset / itemHeight).round()){
-                      setState(() {
-                        selected = (scrollController.offset / itemHeight).round();
-                      });
+                    if (scrollDirection == Axis.vertical) {
+                      if (selected != (scrollController.offset / itemHeight).round()){
+                        setState(() {
+                          selected = (scrollController.offset / itemHeight).round();
+                        });
+                      }
+                    }
+                    else if (scrollDirection == Axis.horizontal){
+                      if (selected != (scrollController.offset / itemWidth).round()){
+                        setState(() {
+                          selected = (scrollController.offset / itemWidth).round();
+                        });
+                      }
                     }
                     try{ // in case selected goes negative during scrolling
                       callback(options[selected]);
@@ -77,17 +109,21 @@ class _ListPickerState extends State<ListPicker>{
                   return true;
                 },
                 child: ListView.builder(
+                    reverse: scrollDirection == Axis.horizontal? true: false,
+                    scrollDirection: scrollDirection,
                     padding: const EdgeInsets.all(0),
-                    itemCount: options.length + 10,
+                    itemCount: options.length + 3,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index){
                       return Container(
                         height: itemHeight,
                         //color: Colors.blue,
+                        width: scrollDirection == Axis.horizontal?
+                          itemWidth:null,
                         child: Center(
                           child:
                           Text("${index < options.length? options[index]:"--"}",
-                            style: index == selected? selectedTextStyle:defaultTextStyle,
+                            style: index == selected? selectedStyle:defaultStyle,
                           ),
                         ),
                       );

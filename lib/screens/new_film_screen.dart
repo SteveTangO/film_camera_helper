@@ -1,6 +1,7 @@
 import 'package:film_camera_campanion/screens/home_screen.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/utilities/filmstock.dart';
+import 'package:film_camera_campanion/widgets/listPicker.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flare_dart/actor.dart';
@@ -67,7 +68,8 @@ class NewFilmScreen extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.all(8.0),
-                    height: SizeConfig.safeBlockVertical * 30,
+                    //color: Colors.blue,
+                    height: SizeConfig.safeBlockVertical * 25,
                     child: TextField(
                       //TODO finish the type process of text input  done
                       keyboardType: TextInputType.text,
@@ -95,15 +97,76 @@ class NewFilmScreen extends StatelessWidget {
                       autofocus: false,
                     ),
                   ),
-                  Container(
-                    height: SizeConfig.safeBlockVertical * 28,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text((filmiso).toString()),
-                        Text((picsperfilm).toString()),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.safeBlockHorizontal * 8
+                        ),
+                        height: SizeConfig.safeBlockVertical * 32,
+                        width: SizeConfig.safeBlockHorizontal*35,
+                        //color: Colors.green,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Row(
+                              //crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Container(
+                                  height: SizeConfig.safeBlockVertical * 12,
+                                  child: ListPicker(
+                                    options: kEXR,
+                                    scrollDirection: Axis.horizontal,
+                                    horizontalLine: false,
+                                    itemWidth: SizeConfig.safeBlockHorizontal*14,
+                                    selectedStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w800
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 7,
+                                  child: Center(
+                                    child: Text("EXR",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: SizeConfig.safeBlockVertical*1.9,
+                                        fontWeight: FontWeight.w800
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              color: Colors.black,
+                              height: SizeConfig.safeBlockVertical/1.1,
+                            ),
+                            Container(
+                              height: SizeConfig.safeBlockVertical * 14,
+                              child: ListPicker(
+                                options: kISO,
+                                horizontalLine: false,
+                                defaultStyle: TextStyle(
+                                  color: Colors.grey,
+                                    fontSize: SizeConfig.safeBlockVertical * 3,
+                                    fontWeight: FontWeight.w600
+                                ),
+                                selectedStyle: TextStyle(
+                                  color: Colors.black,
+                                    fontSize: SizeConfig.safeBlockVertical * 3.5,
+                                    fontWeight: FontWeight.w800
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+
+                    ],
                   ),
                   Container(
                     height: SizeConfig.safeBlockVertical * 39,
