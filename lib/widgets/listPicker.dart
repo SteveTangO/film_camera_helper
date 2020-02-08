@@ -18,7 +18,6 @@ class ListPicker extends StatefulWidget{
   // horizontal list specific fields
   double itemWidth;
 
-
   // constructor
   ListPicker({
     @required this.options,

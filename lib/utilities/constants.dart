@@ -95,11 +95,11 @@ List<String> klens = [
 const List<String> kEXR = [
   "36",
   "24",
-  "12",
-  "13",
-  "14",
+  "16",
   "15",
-  "16"
+  "14",
+  "13",
+  "12"
 ];
 
 const List<String> kISO = [
