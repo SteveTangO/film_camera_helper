@@ -2,45 +2,78 @@ import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 
-class ListPicker extends StatelessWidget{
+class ListPicker extends StatefulWidget{
+
+  List<String> options; // list of options to show
+  void Function(String) callback; // callback when chosen value changes
+  double itemHeight; // height of each item in list
+  bool horizontalLine; // if true, renders a horizontal line on each side
+
+  // constructor
+  ListPicker({
+    @required this.options,
+    this.callback,
+    this.itemHeight,
+    this.horizontalLine
+  });
+
+  @override
+  _ListPickerState createState()=> _ListPickerState();
+}
+
+class _ListPickerState extends State<ListPicker>{
 
   List<String> options;
-  ListPicker({@required this.options,this.callback});
   void Function(String) callback;
-
-  ScrollController scrollController = ScrollController();
   int selected = 0;
   double itemHeight;
+  bool horizontalLine;
+
+  ScrollController scrollController = ScrollController();
+
 
   @override
   Widget build(BuildContext context) {
+
+    // initialize SizeConfig
     SizeConfig().init(context);
-    TextStyle defaultTextStyle = TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w600);
-    TextStyle selectedTextStyle = kbodytextstyle;
-    itemHeight = SizeConfig.safeBlockVertical * 7;
+
+    // get values from parent widget
+    options = widget.options;
+    callback = widget.callback;
+    itemHeight = widget.itemHeight;
+    horizontalLine = widget.horizontalLine;
+
+    itemHeight = itemHeight == null? SizeConfig.safeBlockVertical * 7 : itemHeight;
+    horizontalLine = horizontalLine == null? true:horizontalLine;
+
+    // define textstyles
+    TextStyle defaultTextStyle = TextStyle(color: Colors.grey, fontSize: 20, fontWeight: FontWeight.w600);
+    TextStyle selectedTextStyle = TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w600);
+
     return  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        LineColumn(itemHeight: itemHeight,),
+        // left horizontal line
+        horizontalLine? HorizontalLine(itemHeight: itemHeight,):SizedBox(height: 0,),
+        // list picker
         Container(
             width: SizeConfig.blockSizeHorizontal*28,
             //color: Colors.green,
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
                   if (scrollNotification is ScrollUpdateNotification){
-                    selected = (scrollController.offset / itemHeight).round();
+                    if (selected != (scrollController.offset / itemHeight).round()){
+                      setState(() {
+                        selected = (scrollController.offset / itemHeight).round();
+                      });
+                    }
                     try{ // in case selected goes negative during scrolling
                       callback(options[selected]);
                     }catch(e){}
                     //print(selected);
                   }
-                  /*if (scrollNotification is ScrollEndNotification){
-                    scrollController.animateTo(selected*itemHeight,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.ease);
-                  }
-                   */
                   return true;
                 },
                 child: ListView.builder(
@@ -54,7 +87,7 @@ class ListPicker extends StatelessWidget{
                         child: Center(
                           child:
                           Text("${index < options.length? options[index]:"--"}",
-                            style: kbodytextstyle,
+                            style: index == selected? selectedTextStyle:defaultTextStyle,
                           ),
                         ),
                       );
@@ -62,18 +95,18 @@ class ListPicker extends StatelessWidget{
                 ),
               ),
         ),
-        LineColumn(itemHeight: itemHeight,),
+        // right horizontal line
+        horizontalLine? HorizontalLine(itemHeight: itemHeight,):SizedBox(height: 0,),
       ],
     );
   }
 
 }
 
-
-class LineColumn extends StatelessWidget{
+class HorizontalLine extends StatelessWidget{
 
   double itemHeight;
-  LineColumn({@required this.itemHeight});
+  HorizontalLine({@required this.itemHeight});
 
   @override
   Widget build(BuildContext context) {
