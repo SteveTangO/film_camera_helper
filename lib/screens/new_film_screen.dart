@@ -105,21 +105,21 @@ class NewFilmScreen extends StatelessWidget {
                           horizontal: SizeConfig.safeBlockHorizontal * 8
                         ),
                         height: SizeConfig.safeBlockVertical * 32,
-                        width: SizeConfig.safeBlockHorizontal*35,
+                        width: SizeConfig.safeBlockHorizontal*45,
                         //color: Colors.green,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Row(
-                              //crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Container(
-                                  height: SizeConfig.safeBlockVertical * 12,
+                                  height: SizeConfig.safeBlockVertical * 5,
                                   child: ListPicker(
                                     options: kEXR,
                                     scrollDirection: Axis.horizontal,
                                     horizontalLine: false,
-                                    itemWidth: SizeConfig.safeBlockHorizontal*14,
+                                    itemWidth: SizeConfig.safeBlockHorizontal*16.5,
                                     selectedStyle: TextStyle(
                                         color: Colors.black,
                                         fontSize: 30,
@@ -128,13 +128,13 @@ class NewFilmScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: SizeConfig.safeBlockHorizontal * 7,
+                                  width: SizeConfig.safeBlockHorizontal * 12,
                                   child: Center(
                                     child: Text("EXR",
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: SizeConfig.safeBlockVertical*1.9,
-                                        fontWeight: FontWeight.w800
+                                        fontSize: SizeConfig.safeBlockVertical*3,
+                                        fontWeight: FontWeight.w900
                                       ),
                                     ),
                                   ),
@@ -144,21 +144,23 @@ class NewFilmScreen extends StatelessWidget {
                             Container(
                               color: Colors.black,
                               height: SizeConfig.safeBlockVertical/1.1,
+                              width: SizeConfig.safeBlockHorizontal * 27,
                             ),
                             Container(
                               height: SizeConfig.safeBlockVertical * 14,
+                              width: SizeConfig.safeBlockHorizontal*27,
                               child: ListPicker(
                                 options: kISO,
                                 horizontalLine: false,
                                 defaultStyle: TextStyle(
                                   color: Colors.grey,
-                                    fontSize: SizeConfig.safeBlockVertical * 3,
+                                    fontSize: SizeConfig.safeBlockVertical * 2,
                                     fontWeight: FontWeight.w600
                                 ),
                                 selectedStyle: TextStyle(
                                   color: Colors.black,
-                                    fontSize: SizeConfig.safeBlockVertical * 3.5,
-                                    fontWeight: FontWeight.w800
+                                    fontSize: SizeConfig.safeBlockVertical * 2.1,
+                                    fontWeight: FontWeight.w900
                                 ),
                               ),
                             )

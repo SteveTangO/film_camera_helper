@@ -73,79 +73,70 @@ class _ListPickerState extends State<ListPicker>{
     horizontalLine = widget.horizontalLine;
     if (horizontalLine == null){horizontalLine = true;}
 
-    return  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        // left horizontal line
-        horizontalLine? HorizontalLine(itemHeight: itemHeight,):SizedBox(height: 0,),
-        // list picker
-        Container(
-            width: itemWidth*2,
-            //height: scrollDirection == Axis.horizontal? itemHeight/1.3: null,
-            //color: Colors.green,
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (scrollNotification) {
-                  if (scrollNotification is ScrollUpdateNotification){
-                    if (scrollDirection == Axis.vertical) {
-                      if (selected != (scrollController.offset / itemHeight).round()){
-                        setState(() {
-                          selected = (scrollController.offset / itemHeight).round();
-                        });
-                      }
-                    }
-                    else if (scrollDirection == Axis.horizontal){
-                      if (selected != (scrollController.offset / itemWidth).round()){
-                        setState(() {
-                          selected = (scrollController.offset / itemWidth).round();
-                        });
-                      }
-                    }
-                    try{ // in case selected goes negative during scrolling
-                      callback(options[selected]);
-                    }catch(e){}
-                    //print(selected);
-                  }
-                  return true;
-                },
-                child: ListView.builder(
-                    reverse: scrollDirection == Axis.horizontal? true: false,
-                    scrollDirection: scrollDirection,
-                    padding: const EdgeInsets.all(0),
-                    itemCount: options.length + 3,
-                    controller: scrollController,
-                    itemBuilder: (BuildContext context, int index){
-                      return Container(
-                        height: itemHeight,
-                        //color: Colors.blue,
-                        width: scrollDirection == Axis.horizontal?
-                          itemWidth:null,
-                        child: Center(
-                          child:
-                          Text("${index < options.length? options[index]:"--"}",
-                            style: index == selected? selectedStyle:defaultStyle,
-                          ),
-                        ),
-                      );
-                    }
-                ),
-              ),
+    return Container(
+      width: itemWidth*2,
+        //color: Colors.blue,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (scrollNotification) {
+            if (scrollNotification is ScrollUpdateNotification){
+              if (scrollDirection == Axis.vertical) {
+                if (selected != (scrollController.offset / itemHeight).round()){
+                  setState(() {
+                    selected = (scrollController.offset / itemHeight).round();
+                  });
+                }
+              }
+              else if (scrollDirection == Axis.horizontal){
+                if (selected != (scrollController.offset / itemWidth).round()){
+                  setState(() {
+                    selected = (scrollController.offset / itemWidth).round();
+                  });
+                }
+              }
+              try{ // in case selected goes negative during scrolling
+                callback(options[selected]);
+              }catch(e){}
+              //print(selected);
+            }
+            return true;
+          },
+          child: ListView.builder(
+              reverse: scrollDirection == Axis.horizontal? true: false,
+              scrollDirection: scrollDirection,
+              padding: const EdgeInsets.all(0),
+              itemCount: options.length + 4,
+              controller: scrollController,
+              itemBuilder: (BuildContext context, int index){
+                return Container(
+                  height: itemHeight,
+                  width: itemWidth,
+                  //color: Colors.blue,
+                  child: Center(
+                    child:
+                    Text("${index < options.length? options[index]:"--"}",
+                      style: index == selected? selectedStyle:defaultStyle,
+                    ),
+                  ),
+                );
+              }
+          ),
         ),
-        // right horizontal line
-        horizontalLine? HorizontalLine(itemHeight: itemHeight,):SizedBox(height: 0,),
-      ],
     );
   }
 
 }
 
+
 class HorizontalLine extends StatelessWidget{
 
   double itemHeight;
-  HorizontalLine({@required this.itemHeight});
+  HorizontalLine({this.itemHeight});
 
   @override
   Widget build(BuildContext context) {
+    if (itemHeight == null){
+      itemHeight = SizeConfig.safeBlockVertical*7;
+    }
     double lineThickness = itemHeight/12;
     //print(itemHeight);
     return Container(
