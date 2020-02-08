@@ -157,12 +157,12 @@ class NewFilmScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: SizeConfig.safeBlockHorizontal * 12,
+                              width: SizeConfig.safeBlockHorizontal * 30,
                             ),
                             Container(
                                 margin: EdgeInsets.symmetric(
                                     horizontal:
-                                        SizeConfig.safeBlockHorizontal * 10),
+                                        SizeConfig.safeBlockHorizontal * 5),
                                 child: IconButtonReturn(
                                   filmStockNo: filmStockNo,
                                   filmiso: filmiso,
@@ -247,7 +247,7 @@ class _ChooseFilmSizeState extends State<ChooseFilmSize> {
                   overlayColor: kkodakyellow,
                 ),
                 child: Container(
-                  width: SizeConfig.safeBlockHorizontal * 50,
+                  width: SizeConfig.safeBlockHorizontal * 70,
                   child: Slider(
                     value: filmmeasure,
                     min: 1,
@@ -302,7 +302,7 @@ class _IconButtonReturnState extends State<IconButtonReturn> {
         children: <Widget>[
           Icon(
             Icons.photo_camera,
-            color: Colors.white,
+            color: kkodakyellow,
             size: SizeConfig.safeBlockHorizontal * 12,
           ),
         ],
