@@ -92,7 +92,7 @@ List<String> klens = [
   300,
 ].map((int) => int.toString()).toList();
 
-const List<String> kEXR = ["36", "24", "12", "13", "14", "15", "16"];
+const List<String> kEXR = ["36", "24", "16", "15", "14", "13", "12"];
 
 const List<String> kISO = [
   "0.8/0°",

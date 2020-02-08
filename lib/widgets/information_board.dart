@@ -1,3 +1,4 @@
+import 'package:film_camera_campanion/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
@@ -66,12 +67,15 @@ class _InformationBoardState extends State<InformationBoard> {
   // build
   @override
   Widget build(BuildContext context) {
+
+    SizeConfig().init(context);
+
     double longitude = position.longitude;
     double latitude = position.latitude;
 
     return AnimatedContainer(
-      height: selected ? MediaQuery.of(context).size.height : 100,
-      width: selected ? MediaQuery.of(context).size.width : 200,
+      height: selected ? SizeConfig.screenHeight : SizeConfig.safeBlockVertical*60,
+      width: SizeConfig.safeBlockHorizontal,
       duration: Duration(milliseconds: 300),
       curve: Curves.fastLinearToSlowEaseIn,
       padding: EdgeInsets.all(40),
@@ -180,7 +184,7 @@ class _InformationBoardState extends State<InformationBoard> {
             ],
           ),
           AnimatedContainer(
-            height: selected ? MediaQuery.of(context).size.height / 2 : 0,
+            height: selected ? SizeConfig.screenHeight / 2 : 0,
             duration: Duration(milliseconds: 300),
             child: PageView(
               controller: _pageController,
@@ -189,7 +193,7 @@ class _InformationBoardState extends State<InformationBoard> {
                   children: <Widget>[
                     Expanded(
                       flex: 1,
-                      child: Center(
+                      child:Center(
                         child: Text(
                           "Aperture",
                           style: kbodytextstyle,
@@ -198,10 +202,19 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: kapertureonethirdstop,
-                          callback: _setAperture,
-                        ))
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: kapertureonethirdstop,
+                              callback: _setAperture,
+                            ),
+                            HorizontalLine(),
+                          ],
+                        )
+                    )
                   ],
                 ),
                 Column(
@@ -217,9 +230,17 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: kshutterspeed,
-                          callback: _setShutter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: kshutterspeed,
+                              callback: _setShutter,
+                            ),
+                            HorizontalLine(),
+                          ],
                         ))
                   ],
                 ),
@@ -236,9 +257,17 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: klens,
-                          callback: _setLens,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: klens,
+                              callback: _setLens,
+                            ),
+                            HorizontalLine()
+                          ],
                         ))
                   ],
                 )
