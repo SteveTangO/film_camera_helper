@@ -63,113 +63,11 @@ class NewFilmScreen extends StatelessWidget {
               width: SizeConfig.screenWidth,
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical * 3,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    //color: Colors.blue,
-                    height: SizeConfig.safeBlockVertical * 25,
-                    child: TextField(
-                      //TODO finish the type process of text input  done
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      textCapitalization: TextCapitalization.characters,
-                      maxLines: 2,
-                      decoration: InputDecoration(
-                        hintText: 'Film Name',
-                        hintStyle: TextStyle(
-                            color: kkodakred,
-                            fontWeight: FontWeight.w900,
-                            fontSize: SizeConfig.safeBlockHorizontal * 16),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      style: TextStyle(
-                          color: kkodakred,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 64),
-                      onChanged: (value) {
-                        print(value);
-                      },
-                      cursorColor: kkodakred,
-                      autofocus: false,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.safeBlockHorizontal * 8
-                        ),
-                        height: SizeConfig.safeBlockVertical * 32,
-                        width: SizeConfig.safeBlockHorizontal*45,
-                        //color: Colors.green,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  height: SizeConfig.safeBlockVertical * 5,
-                                  child: ListPicker(
-                                    options: kEXR,
-                                    scrollDirection: Axis.horizontal,
-                                    horizontalLine: false,
-                                    itemWidth: SizeConfig.safeBlockHorizontal*16.5,
-                                    selectedStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w800
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: SizeConfig.safeBlockHorizontal * 12,
-                                  child: Center(
-                                    child: Text("EXR",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: SizeConfig.safeBlockVertical*3,
-                                        fontWeight: FontWeight.w900
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              color: Colors.black,
-                              height: SizeConfig.safeBlockVertical/1.1,
-                              width: SizeConfig.safeBlockHorizontal * 27,
-                            ),
-                            Container(
-                              height: SizeConfig.safeBlockVertical * 14,
-                              width: SizeConfig.safeBlockHorizontal*27,
-                              child: ListPicker(
-                                options: kISO,
-                                horizontalLine: false,
-                                defaultStyle: TextStyle(
-                                  color: Colors.grey,
-                                    fontSize: SizeConfig.safeBlockVertical * 2,
-                                    fontWeight: FontWeight.w600
-                                ),
-                                selectedStyle: TextStyle(
-                                  color: Colors.black,
-                                    fontSize: SizeConfig.safeBlockVertical * 2.1,
-                                    fontWeight: FontWeight.w900
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-
-                    ],
-                  ),
+//                  SizedBox(
+//                    height: SizeConfig.safeBlockVertical * 1,
+//                  ),
+                  FilmNamer(), //height safevertical 25
+                  ISOselector(), //height
                   Container(
                     height: SizeConfig.safeBlockVertical * 39,
                     child: Column(
@@ -222,7 +120,7 @@ class NewFilmScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: SizeConfig.safeBlockHorizontal * 30,
+                              width: SizeConfig.safeBlockHorizontal * 20,
                             ),
                             Container(
                                 margin: EdgeInsets.symmetric(
@@ -244,6 +142,130 @@ class NewFilmScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FilmNamer extends StatelessWidget {
+  const FilmNamer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      //color: Colors.blue,
+      height: SizeConfig.safeBlockVertical * 25,
+      child: TextField(
+        //TODO finish the type process of text input  done
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        textCapitalization: TextCapitalization.characters,
+        maxLines: 2,
+        decoration: InputDecoration(
+          hintText: 'Film Name',
+          hintStyle: TextStyle(
+              color: kkodakred,
+              fontWeight: FontWeight.w900,
+              fontSize: SizeConfig.safeBlockHorizontal * 15),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+          ),
+        ),
+        style: TextStyle(
+            color: kkodakred,
+            fontWeight: FontWeight.w900,
+            fontSize: SizeConfig.safeBlockHorizontal * 15),
+        onChanged: (value) {
+          print(value);
+        },
+        cursorColor: kkodakred,
+        autofocus: false,
+      ),
+    );
+  }
+}
+
+class ISOselector extends StatelessWidget {
+  const ISOselector({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(
+              horizontal: SizeConfig.safeBlockHorizontal * 6),
+          height: SizeConfig.safeBlockVertical * 32,
+          width: SizeConfig.safeBlockHorizontal * 80,
+          //color: Colors.green,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Row(
+                textBaseline: TextBaseline.alphabetic,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    height: SizeConfig.safeBlockVertical * 9,
+                    child: ListPicker(
+                      options: kEXR,
+                      scrollDirection: Axis.horizontal,
+                      horizontalLine: true,
+                      itemWidth: SizeConfig.safeBlockHorizontal * 20,
+                      defaultStyle: TextStyle(
+                          color: Color(0xFFB68500),
+                          fontSize: SizeConfig.safeBlockHorizontal * 8),
+                      selectedStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: SizeConfig.safeBlockHorizontal * 15,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 22,
+                    height: SizeConfig.safeBlockVertical * 9,
+                    child: Align(
+                      alignment: Alignment(1.0, 1.0),
+                      child: Text(
+                        "EXR",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: SizeConfig.safeBlockVertical * 6,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                color: Colors.black,
+                height: SizeConfig.safeBlockVertical / 2,
+                width: SizeConfig.safeBlockHorizontal * 42,
+              ),
+              Container(
+                height: SizeConfig.safeBlockVertical * 15,
+                width: SizeConfig.safeBlockHorizontal * 42,
+                child: ListPicker(
+                  options: kISO,
+                  horizontalLine: false,
+                  defaultStyle: TextStyle(
+                      color: Color(0xFFB68500),
+                      fontSize: SizeConfig.safeBlockHorizontal * 8),
+                  selectedStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.safeBlockHorizontal * 16,
+                      fontWeight: FontWeight.w900),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

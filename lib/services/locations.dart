@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:film_camera_campanion/utilities/PictureData.dart';
+import 'package:film_camera_campanion/model/PictureData.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dotenv/dotenv.dart';
 
@@ -15,7 +15,7 @@ class Location {
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
     if (geolocationStatus == GeolocationStatus.granted) {
-      PictureData(position: position);
+      //PictureData(position: position);
       print(position);
     } else {
       print('Permission not granted');

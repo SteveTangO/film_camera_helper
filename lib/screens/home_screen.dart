@@ -1,4 +1,4 @@
-import 'package:film_camera_campanion/utilities/PictureData.dart';
+import 'package:film_camera_campanion/model/PictureData.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
@@ -168,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           try {
-            filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
+            //filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
             print('this is the NO${scrollIndex + 1} film');
             Location location = Location(); //construct a location object
             await location
