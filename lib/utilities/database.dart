@@ -46,8 +46,8 @@ class DatabaseHelper {
   void _createDB(Database db, int newVersion) async {
     await db.execute(
         'CREATE TABLE $pictureTable($colPicserial INTEGER PRIMARY KEY AUTOINCREMENT, '
-        '$colFilmstockserial INTEGER, $colAperture TEXT, $colShutterspeed) TEXT, '
-        '$colLens TEXT, $colTime TEXT, $colPosition TEXT');
+        '$colFilmstockserial INTEGER, $colAperture TEXT, $colShutterspeed TEXT, '
+        '$colLens TEXT, $colTime TEXT, $colPosition TEXT)');
   }
 
   //implement CRUD operations

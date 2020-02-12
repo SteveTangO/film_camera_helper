@@ -1,3 +1,4 @@
+import 'package:film_camera_campanion/model/PictureData.dart';
 import 'package:film_camera_campanion/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +18,12 @@ class InformationBoard extends StatefulWidget {
     _informationBoardState.toggleSelected();
   }
 
+  PictureData collectPicdata() {
+    PictureData newPicdata = _informationBoardState.collectPicdata();
+//    print(newPicdata.shutterspeed+"this is in the information board");
+    return newPicdata;
+  }
+
   _InformationBoardState _informationBoardState = _InformationBoardState();
 
   @override
@@ -25,36 +32,42 @@ class InformationBoard extends StatefulWidget {
 
 class _InformationBoardState extends State<InformationBoard> {
   //fields
+
   Position position = Position(latitude: 0, longitude: 0);
   bool selected = false;
   String aperture = '1.8';
   String shutter = '1/60';
   String lens = '50';
-
+  PictureData newpicture = new PictureData(
+      0, '1.8', '1/60', '50', Position(latitude: 0, longitude: 0));
   PageController _pageController = PageController(initialPage: 0);
 
   //method
   void _setAperture(String value) {
     setState(() {
+      newpicture.aperture = value;
       aperture = value;
     });
   }
 
   void _setShutter(String value) {
     setState(() {
+      newpicture.shutterspeed = value;
       shutter = value;
     });
   }
 
   void _setLens(String value) {
     setState(() {
+      newpicture.lens = value;
       lens = value;
     });
   }
 
   void setPosition(Position position) {
     setState(() {
-      this.position = position;
+      newpicture.position = position;
+      position = position;
     });
   }
 
@@ -64,17 +77,24 @@ class _InformationBoardState extends State<InformationBoard> {
     });
   }
 
+  PictureData collectPicdata() {
+//    Map trial = newpicture.toMap();
+//    print(trial);
+    return newpicture;
+  }
+
   // build
   @override
   Widget build(BuildContext context) {
-
     SizeConfig().init(context);
 
     double longitude = position.longitude;
     double latitude = position.latitude;
 
     return AnimatedContainer(
-      height: selected ? SizeConfig.screenHeight : SizeConfig.safeBlockVertical*60,
+      height: selected
+          ? SizeConfig.screenHeight
+          : SizeConfig.safeBlockVertical * 60,
       width: SizeConfig.safeBlockHorizontal,
       duration: Duration(milliseconds: 300),
       curve: Curves.fastLinearToSlowEaseIn,
@@ -193,7 +213,7 @@ class _InformationBoardState extends State<InformationBoard> {
                   children: <Widget>[
                     Expanded(
                       flex: 1,
-                      child:Center(
+                      child: Center(
                         child: Text(
                           "Aperture",
                           style: kbodytextstyle,
@@ -202,7 +222,7 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child:Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -213,8 +233,7 @@ class _InformationBoardState extends State<InformationBoard> {
                             ),
                             HorizontalLine(),
                           ],
-                        )
-                    )
+                        ))
                   ],
                 ),
                 Column(

@@ -13,7 +13,9 @@ class PictureData {
   Position _position; //maybe user could update manully
 
   PictureData(this._filmstockserial, this._aperture, this._shutterspeed,
-      this._lens, this._time, this._position);
+      this._lens,  this._position){
+    this.time = DateTime.now().toString();
+  }
 
   PictureData.withPicserial(
       this._picserial,
@@ -68,7 +70,8 @@ class PictureData {
       map['shutterspeed'] = _shutterspeed;
       map['lens'] = _lens;
       map['time'] = _time;
-      map['position'] = _position;
+      map['position'] = 'NA';  //debug purpose
+      //map['position'] = _position;
       return map;
   }
 

@@ -1,4 +1,3 @@
-import 'package:film_camera_campanion/model/PictureData.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
@@ -9,6 +8,8 @@ import 'package:film_camera_campanion/screens/new_film_screen.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:film_camera_campanion/utilities/database.dart';
+import 'package:film_camera_campanion/model/PictureData.dart';
 
 int filmStockNo = 0; //serial of the film stocks
 //todo: store this number so when the app restarts, the number won't be 0
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int scrollIndex = 0;
   List<PictureData> filmroll =
       new List(42); //list of picture data for this film
+  //TODO connect to the DB
   InformationBoard _informationBoard = InformationBoard();
   bool shrink = false;
 
@@ -76,6 +78,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           index: scrollIndex, duration: Duration(milliseconds: 500));
     });
   }
+
+  //Todo connect to the DB
+
+  DatabaseHelper helper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -180,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               _informationBoard.setPosition(position);
             });
             add();
+            _save();
           } catch (e) {
             print('fail to acquire location');
             displayDialog();
@@ -192,5 +199,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 10.0,
       ),
     );
+  }
+
+  void _save() async {
+    int result;
+    PictureData newPicdata = _informationBoard.collectPicdata();
+    //_informationboard is an object
+//    print(newPicdata.shutterspeed);
+//    Map trial = newPicdata.toMap();
+//    print(trial);
+
+    result = await helper.insertPic(newPicdata);
+    if (result != 0) {
+      print("Successful!!");
+    } else {
+      print("Not Saved !");
+    }
   }
 }
