@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    _asyncMethod();
     controller = AnimationController(
         duration: Duration(milliseconds: 1500), vsync: this);
     controller.forward(from: 0.3);
@@ -49,8 +50,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
     controller.addListener(() {
       setState(() {});
-      print(animation.value);
+//      print(animation.value);
     });
+  }
+
+  //to get the latest serial
+  // by using a separate method to avoid direct async in the iniState learned from web
+  //TODO no initState need to put it in the update process
+  _asyncMethod() async {
+    scrollIndex = await _locatePic();
+    print("$scrollIndex+testing");
   }
 
   @override
@@ -121,15 +130,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 itemCount: 42,
                 itemBuilder: (BuildContext context, int index) {
                   int filmcardserial = index + 1;
-                  return Container(
-                    height: 100 * animation.value,
-                    width: 180 * animation.value,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    padding: EdgeInsets.all(20),
-                    child: Center(child: Text("$filmcardserial")),
-                    decoration: BoxDecoration(
-                      color: kfilmcardcolor,
-                      borderRadius: BorderRadius.circular(10),
+                  return GestureDetector(
+                    onDoubleTap: () async {
+                      _read(filmcardserial);
+                      int bbb = await _locatePic(); //debug
+                      print(bbb);
+                    },
+                    child: Container(
+                      height: 100 * animation.value,
+                      width: 180 * animation.value,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.all(20),
+                      child: Center(child: Text("$filmcardserial")),
+                      decoration: BoxDecoration(
+                        color: kfilmcardcolor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   );
                 },
@@ -175,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         onPressed: () async {
           try {
             //filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
+
             print('this is the NO${scrollIndex + 1} film');
             Location location = Location(); //construct a location object
             await location
@@ -201,6 +218,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  //get the serial of the last picture the user has recorded
+  Future<int> _locatePic() async {
+    int result = await helper.locatePic();
+    return result;
+  }
+
   void _save() async {
     int result;
     PictureData newPicdata = _informationBoard.collectPicdata();
@@ -214,6 +237,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       print("Successful!!");
     } else {
       print("Not Saved !");
+    }
+  }
+
+  void _read(int filmcardserial) async {
+    try {
+      var result = await helper.readPic(filmcardserial);
+      //TODO handle access to the uninitialized photo
+    } catch (noData) {
+      print("data unavailable");
     }
   }
 }

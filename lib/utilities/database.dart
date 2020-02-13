@@ -16,7 +16,8 @@ class DatabaseHelper {
   String colShutterspeed = 'shutterspeed';
   String colLens = 'lens';
   String colTime = 'time';
-  String colPosition = 'position';
+  String colPositionLatitude = 'positionlatitude';
+  String colPositionLongitude = 'positionlongitude';
 
   DatabaseHelper._createInstance();
 
@@ -47,7 +48,7 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE $pictureTable($colPicserial INTEGER PRIMARY KEY AUTOINCREMENT, '
         '$colFilmstockserial INTEGER, $colAperture TEXT, $colShutterspeed TEXT, '
-        '$colLens TEXT, $colTime TEXT, $colPosition TEXT)');
+        '$colLens TEXT, $colTime TEXT, $colPositionLatitude TEXT, $colPositionLongitude TEXT)');
   }
 
   //implement CRUD operations
@@ -56,9 +57,27 @@ class DatabaseHelper {
   Future<int> insertPic(PictureData pictureData) async {
     Database db = await this.database;
     var result = await db.insert(pictureTable, pictureData.toMap());
+    print(pictureData.toMap()); //debug
     return result;
   }
 
 //other functions to be implemented later
+//read the data
+  Future<List<Map<String, dynamic>>> readPic(int picserial) async {
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        'SELECT * FROM $pictureTable WHERE $colPicserial = $picserial');
+    print(result);
+    return result;
+  }
 
+  //return the serial of the last picture the film has recorded
+  Future<int> locatePic() async {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $pictureTable ORDER '
+        'BY $colPicserial DESC LIMIT 1');
+    Map picdata = result[0];
+    int picserial = picdata['picserial'];
+    return picserial;
+  }
 }

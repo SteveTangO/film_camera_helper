@@ -13,7 +13,7 @@ class PictureData {
   Position _position; //maybe user could update manully
 
   PictureData(this._filmstockserial, this._aperture, this._shutterspeed,
-      this._lens,  this._position){
+      this._lens, this._position) {
     this.time = DateTime.now().toString();
   }
 
@@ -66,24 +66,24 @@ class PictureData {
     if (_picserial != null) {
       map['picserial'] = _picserial;
     }
-      map['aperture'] = _aperture;
-      map['shutterspeed'] = _shutterspeed;
-      map['lens'] = _lens;
-      map['time'] = _time;
-      map['position'] = 'NA';  //debug purpose
-      //map['position'] = _position;
-      return map;
+    map['aperture'] = _aperture;
+    map['shutterspeed'] = _shutterspeed;
+    map['lens'] = _lens;
+    map['time'] = _time;
+    map['positionlatitude'] = 'NA';
+    map['positionlongitude'] = 'NA';
+    //map['position'] = _position;
+    return map;
   }
 
-  PictureData.fromMapObject(Map<String, dynamic> map){
+  PictureData.fromMapObject(Map<String, dynamic> map) {
     this._picserial = map['picserial'];
     this._aperture = map['aperture'];
     this._shutterspeed = map['shutterspeed'];
     this._lens = map['lens'];
     this._time = map['time'];
-    this._position = map['position'];
-
+    double latitude = double.parse(map['positionlatitude']);
+    double longitude = double.parse(map['positionlongitude']);
+    this._position = new Position(latitude: latitude, longitude: longitude);
   }
-
-
 }
