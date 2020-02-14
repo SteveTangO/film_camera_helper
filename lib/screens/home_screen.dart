@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   //TODO no initState need to put it in the update process
   _asyncMethod() async {
     scrollIndex = await _locatePic();
-    print("$scrollIndex+testing");
+    print("$scrollIndex");
   }
 
   @override
@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+//    _asyncMethod();
     return Scaffold(
       body: Container(
         child: Column(
@@ -132,9 +133,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   int filmcardserial = index + 1;
                   return GestureDetector(
                     onDoubleTap: () async {
-                      _read(filmcardserial);
-                      int bbb = await _locatePic(); //debug
-                      print(bbb);
+                      int serial = await _locatePic(); //debug
+                      print(serial);
+
+                      if (serial >= filmcardserial) {
+                        PictureData picturedata = await _read(filmcardserial);
+                        _showPicInfo(picturedata);
+                        //TODO transfer the data back to the table
+                      } else {
+                        print("not initialized");
+                      }
                     },
                     child: Container(
                       height: 100 * animation.value,
@@ -224,6 +232,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return result;
   }
 
+  void _showPicInfo(PictureData pictureData) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String lens = pictureData.lens;
+        String aperture = pictureData.aperture;
+        String shutterspeed = pictureData.shutterspeed;
+        return AlertDialog(
+          title: Text("Pic Info"),
+          content: Text('''
+              Lens:$lens
+              Aperture:$aperture
+              Shutterspeed:$shutterspeed'''),
+        );
+      },
+    );
+  }
+
   void _save() async {
     int result;
     PictureData newPicdata = _informationBoard.collectPicdata();
@@ -240,10 +266,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _read(int filmcardserial) async {
+  Future<PictureData> _read(int filmcardserial) async {
     try {
       var result = await helper.readPic(filmcardserial);
-      //TODO handle access to the uninitialized photo
+//      print(result);
+      return result;
     } catch (noData) {
       print("data unavailable");
     }

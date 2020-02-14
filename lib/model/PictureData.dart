@@ -82,8 +82,14 @@ class PictureData {
     this._shutterspeed = map['shutterspeed'];
     this._lens = map['lens'];
     this._time = map['time'];
-    double latitude = double.parse(map['positionlatitude']);
-    double longitude = double.parse(map['positionlongitude']);
-    this._position = new Position(latitude: latitude, longitude: longitude);
+    try{
+      double latitude = double.parse(map['positionlatitude']); // remember to handle the exception
+      double longitude = double.parse(map['positionlongitude']);
+      this._position = new Position(latitude: latitude, longitude: longitude);
+    }
+    catch(positiondatamissing){
+      this._position = new Position();
+    }
+    print("from map transfer done"); //debug
   }
 }

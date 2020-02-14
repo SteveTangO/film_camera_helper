@@ -63,12 +63,14 @@ class DatabaseHelper {
 
 //other functions to be implemented later
 //read the data
-  Future<List<Map<String, dynamic>>> readPic(int picserial) async {
+  Future<PictureData> readPic(int picserial) async {
     Database db = await this.database;
     var result = await db.rawQuery(
         'SELECT * FROM $pictureTable WHERE $colPicserial = $picserial');
-    print(result);
-    return result;
+    //print(result);
+    Map picData = result[0];
+    PictureData pictureData = PictureData.fromMapObject(picData);
+    return pictureData;
   }
 
   //return the serial of the last picture the film has recorded
