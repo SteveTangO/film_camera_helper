@@ -83,6 +83,7 @@ class _ListPickerState extends State<ListPicker>{
                   setState(() {
                     selected = (scrollController.offset / itemHeight).round();
                   });
+
                 }
               }
               else if (scrollDirection == Axis.horizontal){
@@ -97,6 +98,9 @@ class _ListPickerState extends State<ListPicker>{
               }catch(e){}
               //print(selected);
             }
+            //else if (scrollNotification is ScrollEndNotification){
+              //scrollController.animateTo(selected*itemHeight, duration: Duration(milliseconds: 300), curve: Curves.ease);
+            //}
             return true;
           },
           child: ListView.builder(
