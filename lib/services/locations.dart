@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/model/PictureData.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:dotenv/dotenv.dart';
 import 'package:geocoder/geocoder.dart';
 
 class Location {

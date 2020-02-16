@@ -28,7 +28,7 @@ dependencies:
   geocoder: ^0.2.1
   animated_text_kit: ^2.0.0
   google_fonts: ^0.3.2
-  dotenv: ^2.0.0
+  flutter_dotenv: ^2.1.0
   flutter_widgets: ^0.1.9
   flare_flutter: ^2.0.1
   sqflite: ^1.2.0
@@ -48,6 +48,7 @@ dev_dependencies:
 flutter:
   assets:
     - images/kodakbackground.flr
+    - credentials.env
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
