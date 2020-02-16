@@ -1,3 +1,4 @@
+import 'package:film_camera_campanion/screens/google_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
@@ -212,6 +213,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             });
             add();
             _save();
+            // google map
+            Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context,_,__){
+                return GoogleMapScreen(position: position,);
+              }
+            ));
+
           } catch (e) {
             print('fail to acquire location');
             displayDialog();
