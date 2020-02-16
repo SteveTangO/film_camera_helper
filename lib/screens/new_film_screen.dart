@@ -14,7 +14,6 @@ import 'package:film_camera_campanion/utilities/size_config.dart';
 String filmsize = "35mm";
 
 class NewFilmScreen extends StatelessWidget {
-  NewFilmScreen({this.filmStockNo});
 
   static String id = 'NewFilmScreen';
   final List<String> entries = <String>['A', 'B', 'C'];
@@ -22,7 +21,7 @@ class NewFilmScreen extends StatelessWidget {
   double filmmeasure = 35; //dummy data
   int picsperfilm = 36;
   int filmiso = 200;
-  int filmStockNo;
+  int filmStockNo = 1;
 
   @override
   Widget build(BuildContext context) {

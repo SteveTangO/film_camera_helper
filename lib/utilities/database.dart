@@ -19,6 +19,16 @@ class DatabaseHelper {
   String colPositionLatitude = 'positionlatitude';
   String colPositionLongitude = 'positionlongitude';
 
+  String filmTable = 'film_table';
+  String colFilmNo = 'filmNo';
+  String colIso = 'iso';
+  String colFilmname = 'filmname';
+  String colExr = 'exr';
+  String colDate = 'date';
+  String colCompany = 'company';
+  String colFormat = 'format';
+
+
   DatabaseHelper._createInstance();
 
   factory DatabaseHelper() {

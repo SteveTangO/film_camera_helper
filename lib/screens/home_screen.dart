@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       MaterialPageRoute(
                         builder: (context) {
                           filmStockNo++;
-                          return NewFilmScreen(filmStockNo: filmStockNo);
+                          return NewFilmScreen();
                         },
                       ),
                     );

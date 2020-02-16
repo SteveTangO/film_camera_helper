@@ -8,13 +8,13 @@ import 'package:film_camera_campanion/utilities/rotation_restriction.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget with PortraitModeMixin{
+class MyApp extends StatelessWidget with PortraitModeMixin {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return MaterialApp(
-      initialRoute: HomeScreen.id,
+      initialRoute: NewFilmScreen.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         NewFilmScreen.id: (context) => NewFilmScreen(),
