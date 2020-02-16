@@ -13,7 +13,7 @@ class FilmData{
   String _format;
 
   FilmData(
-        this._filmNo, this._iso, this._filmname, this._exr,
+        this._iso, this._filmname, this._exr,
       this._company, this._format
       ){
     this._date = DateTime.now().toString();

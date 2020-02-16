@@ -140,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       if (serial >= filmcardserial) {
                         PictureData picturedata = await _read(filmcardserial);
                         _showPicInfo(picturedata);
+//                        print(picturedata.toMap());
                         //TODO transfer the data back to the table
                       } else {
                         print("not initialized");
@@ -245,16 +246,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String lens = pictureData.lens;
-        String aperture = pictureData.aperture;
-        String shutterspeed = pictureData.shutterspeed;
-        return AlertDialog(
-          title: Text("Pic Info"),
-          content: Text('''
+        try{
+          String lens = pictureData.lens;
+          String aperture = pictureData.aperture;
+          String shutterspeed = pictureData.shutterspeed;
+          return AlertDialog(
+            title: Text("Pic Info"),
+            content: Text('''
               Lens:$lens
               Aperture:$aperture
               Shutterspeed:$shutterspeed'''),
-        );
+          );
+        }
+        catch(e){
+          return AlertDialog(
+            title: Text("Pic Info"),
+            content: Text("Oops, your circuit is dead and something is wrong"),
+          );
+        }
+
       },
     );
   }

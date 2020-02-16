@@ -1,5 +1,7 @@
+import 'package:film_camera_campanion/model/FilmData.dart';
 import 'package:film_camera_campanion/screens/home_screen.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
+import 'package:film_camera_campanion/utilities/database.dart';
 import 'package:film_camera_campanion/utilities/filmstock.dart';
 import 'package:film_camera_campanion/widgets/listPicker.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -8,23 +10,29 @@ import 'package:flare_dart/actor.dart';
 import 'package:film_camera_campanion/utilities/filmstock.dart';
 import '../utilities/constants.dart';
 import 'package:film_camera_campanion/utilities/size_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // re-sizing in completed in this page
+//TODO cancel the focus of the textfield when not typing
 
 String filmsize = "35mm";
+double filmmeasure = 35; //dummy data
+int picsperfilm = 36;
+int filmiso = 200;
+int filmStockNo = 1;
+String inputtext;
+DatabaseHelper helper = DatabaseHelper();
 
 class NewFilmScreen extends StatelessWidget {
+
 
   static String id = 'NewFilmScreen';
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
-  double filmmeasure = 35; //dummy data
-  int picsperfilm = 36;
-  int filmiso = 200;
-  int filmStockNo = 1;
 
   @override
   Widget build(BuildContext context) {
+    _update();
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false, // super useful
@@ -143,12 +151,22 @@ class NewFilmScreen extends StatelessWidget {
       ),
     );
   }
+  void _update()async{
+    filmStockNo = await _getfilmNO();
+  }
+
+  Future<int> _getfilmNO() async{
+    int result;
+    result = await helper.getLastFilmNO();
+    return result;
+  }
 }
 
 class FilmNamer extends StatelessWidget {
   const FilmNamer({
     Key key,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +195,7 @@ class FilmNamer extends StatelessWidget {
             fontWeight: FontWeight.w900,
             fontSize: SizeConfig.safeBlockHorizontal * 15),
         onChanged: (value) {
+          inputtext = value;
           print(value);
         },
         cursorColor: kkodakred,
@@ -365,6 +384,11 @@ class _ChooseFilmSizeState extends State<ChooseFilmSize> {
       ),
     );
   }
+  Future<int> _getfilmNO() async{
+    int result;
+    result = await helper.getLastFilmNO();
+    return result;
+  }
 }
 
 class IconButtonReturn extends StatefulWidget {
@@ -394,17 +418,16 @@ class _IconButtonReturnState extends State<IconButtonReturn> {
         ],
       ),
       onTap: () {
+//        print(DotEnv().env['Google_map_api']);    //debug
+        FilmData newFilm = new FilmData(filmiso, inputtext, picsperfilm, "NA", filmsize);
+        _addfilm(newFilm);
         setState(() {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
-                FilmStock newFilmStock = new FilmStock(
-                    filmiso: this.widget.filmiso,
-                    filmsize: this.widget.filmsize,
-                    filmStockNo: this.widget.filmStockNo,
-                    picsperfilm: this.widget.picsperfilm);
-                return HomeScreen(newFilmStock: newFilmStock);
+
+                return HomeScreen( );
               },
             ),
           );
@@ -412,4 +435,13 @@ class _IconButtonReturnState extends State<IconButtonReturn> {
       },
     );
   }
+
+
+  void _addfilm(FilmData filmData) async{
+    int result;
+    result = await helper.insertFilm(filmData);
+    print (result);
+  }
+
+
 }

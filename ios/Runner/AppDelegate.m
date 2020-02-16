@@ -6,10 +6,12 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [GMSServices provideAPIKey: @Google_map_api];
+    [GMSServices provideAPIKey: @"asdadasassd"];
   [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 @end
+
+//DotEnv().env['Google_map_api']

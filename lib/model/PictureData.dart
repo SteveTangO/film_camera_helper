@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class PictureData {
   int _picserial;
+  int _localserial;
   int _filmstockserial; //this pic is in which film stock
   String _aperture;
   String _shutterspeed;
@@ -27,6 +28,8 @@ class PictureData {
       this._position);
 
   int get picserial => _picserial;
+
+  int get localserial => _localserial;
 
   int get filmstockserial => _filmstockserial;
 
@@ -63,21 +66,30 @@ class PictureData {
   //convert the PictureData object to a Map object
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    if (_picserial != null) {
-      map['picserial'] = _picserial;
+    try{
+      if (_picserial != null) {
+        map['picserial'] = _picserial;
+      }
+      map['localserial'] = _localserial;
+      map['filmstockserial'] = _filmstockserial;
+      map['aperture'] = _aperture;
+      map['shutterspeed'] = _shutterspeed;
+      map['lens'] = _lens;
+      map['time'] = _time;
+      map['positionlatitude'] = 'NA';
+      map['positionlongitude'] = 'NA';
     }
-    map['aperture'] = _aperture;
-    map['shutterspeed'] = _shutterspeed;
-    map['lens'] = _lens;
-    map['time'] = _time;
-    map['positionlatitude'] = 'NA';
-    map['positionlongitude'] = 'NA';
+    catch(e){
+      print("toMap() failed");
+    }
     //map['position'] = _position;
     return map;
   }
 
   PictureData.fromMapObject(Map<String, dynamic> map) {
     this._picserial = map['picserial'];
+    this._localserial = map['localserial'];
+    this._filmstockserial  = map['filmstockserial'];
     this._aperture = map['aperture'];
     this._shutterspeed = map['shutterspeed'];
     this._lens = map['lens'];
