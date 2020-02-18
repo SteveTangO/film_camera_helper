@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:film_camera_campanion/utilities/PictureData.dart';
+import 'package:film_camera_campanion/model/PictureData.dart';
 
 class FilmStock{
   int filmStockNo;

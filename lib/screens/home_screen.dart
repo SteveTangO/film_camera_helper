@@ -1,4 +1,4 @@
-import 'package:film_camera_campanion/utilities/PictureData.dart';
+import 'package:film_camera_campanion/screens/google_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:film_camera_campanion/services/locations.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
@@ -9,6 +9,8 @@ import 'package:film_camera_campanion/screens/new_film_screen.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
 import 'package:film_camera_campanion/widgets/information_board.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:film_camera_campanion/utilities/database.dart';
+import 'package:film_camera_campanion/model/PictureData.dart';
 
 int filmStockNo = 0; //serial of the film stocks
 //todo: store this number so when the app restarts, the number won't be 0
@@ -32,12 +34,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int scrollIndex = 0;
   List<PictureData> filmroll =
       new List(42); //list of picture data for this film
+  //TODO connect to the DB
   InformationBoard _informationBoard = InformationBoard();
   bool shrink = false;
 
   @override
   void initState() {
     super.initState();
+    _asyncMethod();
     controller = AnimationController(
         duration: Duration(milliseconds: 1500), vsync: this);
     controller.forward(from: 0.3);
@@ -47,8 +51,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
     controller.addListener(() {
       setState(() {});
-      print(animation.value);
+//      print(animation.value);
     });
+  }
+
+  //to get the latest serial
+  // by using a separate method to avoid direct async in the iniState learned from web
+  //TODO no initState need to put it in the update process
+  _asyncMethod() async {
+    scrollIndex = await _locatePic();
+    print("$scrollIndex");
   }
 
   @override
@@ -77,13 +89,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  //Todo connect to the DB
+
+  DatabaseHelper helper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
+//    _asyncMethod();
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('images/background.PNG')),
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,15 +132,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 itemCount: 42,
                 itemBuilder: (BuildContext context, int index) {
                   int filmcardserial = index + 1;
-                  return Container(
-                    height: 100 * animation.value,
-                    width: 180 * animation.value,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    padding: EdgeInsets.all(20),
-                    child: Center(child: Text("$filmcardserial")),
-                    decoration: BoxDecoration(
-                      color: kfilmcardcolor,
-                      borderRadius: BorderRadius.circular(10),
+                  return GestureDetector(
+                    onDoubleTap: () async {
+                      int serial = await _locatePic(); //debug
+                      print(serial);
+
+                      if (serial >= filmcardserial) {
+                        PictureData picturedata = await _read(filmcardserial);
+                        _showPicInfo(picturedata);
+//                        print(picturedata.toMap());
+                        //TODO transfer the data back to the table
+                      } else {
+                        print("not initialized");
+                      }
+                    },
+                    child: Container(
+                      height: 100 * animation.value,
+                      width: 180 * animation.value,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.all(20),
+                      child: Center(child: Text("$filmcardserial")),
+                      decoration: BoxDecoration(
+                        color: kfilmcardcolor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   );
                 },
@@ -155,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       MaterialPageRoute(
                         builder: (context) {
                           filmStockNo++;
-                          return NewFilmScreen(filmStockNo: filmStockNo);
+                          return NewFilmScreen();
                         },
                       ),
                     );
@@ -171,7 +200,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           try {
-            filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
+            //filmroll[scrollIndex] = PictureData(filmstockserial: scrollIndex);
+
             print('this is the NO${scrollIndex + 1} film');
             Location location = Location(); //construct a location object
             await location
@@ -183,6 +213,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               _informationBoard.setPosition(position);
             });
             add();
+            _save();
+            // google map
+            Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context,_,__){
+                return GoogleMapScreen(position: position,);
+              }
+            ));
+
           } catch (e) {
             print('fail to acquire location');
             displayDialog();
@@ -195,5 +234,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 10.0,
       ),
     );
+  }
+
+  //get the serial of the last picture the user has recorded
+  Future<int> _locatePic() async {
+    int result = await helper.locatePic();
+    return result;
+  }
+
+  void _showPicInfo(PictureData pictureData) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        try{
+          String lens = pictureData.lens;
+          String aperture = pictureData.aperture;
+          String shutterspeed = pictureData.shutterspeed;
+          return AlertDialog(
+            title: Text("Pic Info"),
+            content: Text('''
+              Lens:$lens
+              Aperture:$aperture
+              Shutterspeed:$shutterspeed'''),
+          );
+        }
+        catch(e){
+          return AlertDialog(
+            title: Text("Pic Info"),
+            content: Text("Oops, your circuit is dead and something is wrong"),
+          );
+        }
+
+      },
+    );
+  }
+
+  void _save() async {
+    int result;
+    PictureData newPicdata = _informationBoard.collectPicdata();
+    //_informationboard is an object
+//    print(newPicdata.shutterspeed);
+//    Map trial = newPicdata.toMap();
+//    print(trial);
+
+    result = await helper.insertPic(newPicdata);
+    if (result != 0) {
+      print("Successful!!");
+    } else {
+      print("Not Saved !");
+    }
+  }
+
+  Future<PictureData> _read(int filmcardserial) async {
+    try {
+      var result = await helper.readPic(filmcardserial);
+//      print(result);
+      return result;
+    } catch (noData) {
+      print("data unavailable");
+    }
   }
 }

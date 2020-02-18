@@ -1,3 +1,5 @@
+import 'package:film_camera_campanion/model/PictureData.dart';
+import 'package:film_camera_campanion/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:film_camera_campanion/utilities/constants.dart';
@@ -16,6 +18,12 @@ class InformationBoard extends StatefulWidget {
     _informationBoardState.toggleSelected();
   }
 
+  PictureData collectPicdata() {
+    PictureData newPicdata = _informationBoardState.collectPicdata();
+//    print(newPicdata.shutterspeed+"this is in the information board");
+    return newPicdata;
+  }
+
   _InformationBoardState _informationBoardState = _InformationBoardState();
 
   @override
@@ -24,36 +32,42 @@ class InformationBoard extends StatefulWidget {
 
 class _InformationBoardState extends State<InformationBoard> {
   //fields
+
   Position position = Position(latitude: 0, longitude: 0);
   bool selected = false;
   String aperture = '1.8';
   String shutter = '1/60';
   String lens = '50';
-
+  PictureData newpicture = new PictureData(
+      0, '1.8', '1/60', '50', Position(latitude: 0, longitude: 0));
   PageController _pageController = PageController(initialPage: 0);
 
   //method
   void _setAperture(String value) {
     setState(() {
+      newpicture.aperture = value;
       aperture = value;
     });
   }
 
   void _setShutter(String value) {
     setState(() {
+      newpicture.shutterspeed = value;
       shutter = value;
     });
   }
 
   void _setLens(String value) {
     setState(() {
+      newpicture.lens = value;
       lens = value;
     });
   }
 
   void setPosition(Position position) {
     setState(() {
-      this.position = position;
+      newpicture.position = position;
+      position = position;
     });
   }
 
@@ -63,15 +77,25 @@ class _InformationBoardState extends State<InformationBoard> {
     });
   }
 
+  PictureData collectPicdata() {
+//    Map trial = newpicture.toMap();
+//    print(trial);
+    return newpicture;
+  }
+
   // build
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     double longitude = position.longitude;
     double latitude = position.latitude;
 
     return AnimatedContainer(
-      height: selected ? MediaQuery.of(context).size.height : 100,
-      width: selected ? MediaQuery.of(context).size.width : 200,
+      height: selected
+          ? SizeConfig.screenHeight
+          : SizeConfig.safeBlockVertical * 60,
+      width: SizeConfig.safeBlockHorizontal,
       duration: Duration(milliseconds: 300),
       curve: Curves.fastLinearToSlowEaseIn,
       padding: EdgeInsets.all(40),
@@ -180,7 +204,7 @@ class _InformationBoardState extends State<InformationBoard> {
             ],
           ),
           AnimatedContainer(
-            height: selected ? MediaQuery.of(context).size.height / 2 : 0,
+            height: selected ? SizeConfig.screenHeight / 2 : 0,
             duration: Duration(milliseconds: 300),
             child: PageView(
               controller: _pageController,
@@ -198,9 +222,17 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: kapertureonethirdstop,
-                          callback: _setAperture,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: kapertureonethirdstop,
+                              callback: _setAperture,
+                            ),
+                            HorizontalLine(),
+                          ],
                         ))
                   ],
                 ),
@@ -217,9 +249,17 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: kshutterspeed,
-                          callback: _setShutter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: kshutterspeed,
+                              callback: _setShutter,
+                            ),
+                            HorizontalLine(),
+                          ],
                         ))
                   ],
                 ),
@@ -236,9 +276,17 @@ class _InformationBoardState extends State<InformationBoard> {
                     ),
                     Expanded(
                         flex: 2,
-                        child: ListPicker(
-                          options: klens,
-                          callback: _setLens,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            HorizontalLine(),
+                            ListPicker(
+                              options: klens,
+                              callback: _setLens,
+                            ),
+                            HorizontalLine()
+                          ],
                         ))
                   ],
                 )
